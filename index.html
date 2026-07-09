@@ -350,11 +350,33 @@
   .badge-row:last-child{ border-bottom:none; }
   .badge-count{ font-family:'Shippori Mincho', serif; font-style:italic; color:var(--ink-faint); font-size:11.5px; }
 
-  #low-bar{ position:fixed; left:0; right:0; bottom:0; z-index:60; height:64px; background:rgba(238,232,220,0.88); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-top:1px solid var(--line); display:flex; justify-content:center; align-items:center; gap:72px; padding-bottom:env(safe-area-inset-bottom); }
+  #low-bar{ position:fixed; left:0; right:0; bottom:0; z-index:60; height:64px; background:rgba(238,232,220,0.88); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-top:1px solid var(--line); display:flex; justify-content:center; align-items:center; gap:56px; padding-bottom:env(safe-area-inset-bottom); }
   .nav-btn{ display:flex; flex-direction:column; align-items:center; gap:5px; cursor:pointer; color:var(--ink-faint); transition:color .2s; -webkit-tap-highlight-color:transparent; }
   .nav-btn.active{ color:var(--indigo); }
   .nav-btn svg{ width:19px; height:19px; stroke:currentColor; fill:none; stroke-width:1.3; }
   .nav-btn span{ font-size:9.5px; letter-spacing:2px; text-transform:uppercase; font-weight:500; }
+
+  /* ============ store (add a book) ============ */
+  #store-scroll{ height:100%; overflow-y:auto; padding:56px 20px 100px; -webkit-overflow-scrolling:touch; }
+  #store-scroll::-webkit-scrollbar{ display:none; }
+  .store-panel{ max-width:520px; margin:32px auto 0; }
+  .store-hint{ font-size:12.5px; color:var(--ink-faint); line-height:1.8; margin-bottom:20px; }
+  .store-file-label{ display:flex; align-items:center; justify-content:center; height:56px; border:1.5px dashed var(--thread); border-radius:6px; background:var(--paper-card); font-size:13px; color:var(--ink-soft); cursor:pointer; margin-bottom:16px; text-align:center; padding:0 16px; }
+  .store-file-label.has-file{ border-style:solid; border-color:var(--indigo); color:var(--indigo); }
+  .store-progress-track{ height:4px; background:var(--line); border-radius:2px; overflow:hidden; margin-top:16px; }
+  .store-progress-fill{ height:100%; background:var(--indigo); transition:width .3s; }
+  .store-error-msg{ font-size:13px; color:var(--burgundy); line-height:1.8; margin-bottom:18px; background:var(--paper-card); border:1px solid var(--line); border-left:3px solid var(--burgundy); border-radius:0 4px 4px 0; padding:14px 18px; }
+  .store-review-hint{ font-size:12px; color:var(--ink-faint); line-height:1.75; margin:4px 0 18px; }
+  .store-chapter-row{ background:var(--paper-card); border:1px solid var(--line); border-radius:6px; padding:14px 16px; margin-bottom:10px; }
+  .store-chapter-row-top{ display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+  .store-chapter-num{ font-family:'Shippori Mincho', serif; font-style:italic; font-size:12px; color:var(--ink-faint); flex-shrink:0; width:22px; }
+  .store-chapter-row input[type=text]{ flex:1; padding:7px 9px; border:1px solid var(--line); border-radius:4px; font-size:12.5px; background:var(--paper); font-family:'Zen Kaku Gothic New', sans-serif; }
+  .store-row-remove{ flex-shrink:0; color:var(--ink-faint); cursor:pointer; font-size:16px; line-height:1; padding:2px 4px; }
+  .store-page-fields{ display:flex; gap:8px; align-items:center; margin-left:30px; }
+  .store-page-fields label{ font-size:10.5px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.5px; }
+  .store-page-fields input[type=number]{ width:64px; padding:6px 8px; border:1px solid var(--line); border-radius:4px; font-size:12.5px; background:var(--paper); font-family:'Zen Kaku Gothic New', sans-serif; }
+  .store-add-row-btn{ display:block; width:100%; padding:10px; margin-bottom:18px; border:1px dashed var(--thread); border-radius:6px; background:none; font-size:12px; color:var(--ink-soft); cursor:pointer; font-family:'Zen Kaku Gothic New', sans-serif; }
+  .store-cancel-btn{ display:block; width:100%; padding:10px; margin-top:8px; border:none; background:none; font-size:11.5px; color:var(--ink-faint); cursor:pointer; text-transform:uppercase; letter-spacing:1px; font-family:'Zen Kaku Gothic New', sans-serif; }
 
   /* ============ settings modal ============ */
   #settings-overlay .sheet{ max-width:420px; }
@@ -440,13 +462,13 @@
     <div id="topbar">
       <div class="topbar-row1">
         <div class="back-btn" onclick="showView('lobby-view')"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></div>
-        <div class="chapter-heading"><div class="title">A Practical Guide to Teaching Art and Design</div></div>
+        <div class="chapter-heading"><div class="title" id="chapterlist-topbar-title">A Practical Guide to Teaching Art and Design</div></div>
       </div>
     </div>
     <div class="book-hero">
       <div class="hero-eyebrow">Now Reading</div>
-      <h1 class="hero-title">A Practical Guide to Teaching Art and Design in the Secondary School</h1>
-      <div class="hero-author">Andy Ash &amp; Peter Carr, et al. — 20 chapters</div>
+      <h1 class="hero-title" id="hero-title">A Practical Guide to Teaching Art and Design in the Secondary School</h1>
+      <div class="hero-author" id="hero-author">Andy Ash &amp; Peter Carr, et al. — 20 chapters</div>
       <div class="hero-title-badge" id="reader-title-badge">A Bit Lost, Frankly</div>
       <div class="hero-progress">
         <div class="hero-progress-label"><span>Progress</span><span id="progress-pct-label">15%</span></div>
@@ -523,10 +545,54 @@
   </div>
 </div>
 
+<!-- ================= STORE (add a book from PDF) ================= -->
+<div class="view" id="store-view">
+  <div id="store-scroll">
+    <div class="matron-header">
+      <div class="matron-eyebrow">The Store</div>
+      <h1 class="matron-title">Add a Book</h1>
+      <div class="matron-quip">Upload a text-based PDF and Claude will read it for you.</div>
+    </div>
+
+    <div class="store-panel" id="store-upload-panel">
+      <p class="store-hint">Works best with proper text-based PDFs (the kind where you can select and copy text in a normal PDF reader). Scanned or photographed pages won't work — there's no text layer for Claude to read.</p>
+      <label class="store-file-label" id="store-file-label">
+        <input type="file" id="store-file-input" accept="application/pdf" style="display:none;">
+        <span id="store-file-name">Choose a PDF…</span>
+      </label>
+      <button class="settings-save" id="store-analyze-btn" disabled>Analyze PDF</button>
+    </div>
+
+    <div class="store-panel" id="store-processing-panel" style="display:none;">
+      <div class="sheet-loading" id="store-status-text">Reading pages…</div>
+      <div class="store-progress-track"><div class="store-progress-fill" id="store-progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="store-panel" id="store-error-panel" style="display:none;">
+      <div class="store-error-msg" id="store-error-msg"></div>
+      <button class="settings-save" onclick="resetStore()">Try a Different File</button>
+    </div>
+
+    <div class="store-panel" id="store-review-panel" style="display:none;">
+      <div class="settings-field"><label>Title</label><input type="text" id="store-book-title"></div>
+      <div class="settings-field"><label>Author</label><input type="text" id="store-book-author"></div>
+      <div class="store-review-hint">Claude's best guess at the chapter breaks — check these against the actual PDF page numbers (shown in your PDF viewer) and adjust anything that's off before saving.</div>
+      <div id="store-chapter-rows"></div>
+      <button class="store-add-row-btn" onclick="addStoreChapterRow()">+ Add a chapter</button>
+      <button class="settings-save" onclick="saveNewBook()">Save to My Shelf</button>
+      <button class="store-cancel-btn" onclick="resetStore()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <div id="low-bar">
   <div class="nav-btn active" data-nav="lobby" onclick="showView('lobby-view')">
     <svg viewBox="0 0 24 24"><path d="M4 19V6.6c0-.8.6-1.5 1.4-1.6L12 4l6.6 1c.8.1 1.4.8 1.4 1.6V19"/><path d="M4 19h16"/><path d="M9 4v15M15 4v15"/></svg>
     <span>Library</span>
+  </div>
+  <div class="nav-btn" data-nav="store" onclick="showView('store-view')">
+    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+    <span>Store</span>
   </div>
   <div class="nav-btn" data-nav="matron" onclick="showView('matron-view')">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
@@ -539,9 +605,10 @@
   <div class="sheet">
     <span class="sheet-close" id="panel-close">&times;</span>
     <div class="sheet-eyebrow">Now Reading</div>
-    <div class="sheet-title">A Practical Guide to Teaching Art and Design in the Secondary School</div>
-    <p style="font-size:13px; color:var(--ink-soft); line-height:1.85; margin-bottom:22px;">A practical handbook for secondary Art &amp; Design teachers — twenty contributors, twenty distinct essays spanning curriculum history, assessment, creativity, sustainability, and inclusive teaching practice.</p>
-    <button class="settings-save" onclick="showView('chapterlist-view'); closeSheet('book-panel-overlay');">Enter the Study →</button>
+    <div class="sheet-title" id="panel-book-title">A Practical Guide to Teaching Art and Design in the Secondary School</div>
+    <p style="font-size:13px; color:var(--ink-soft); line-height:1.85; margin-bottom:22px;" id="panel-book-desc">A practical handbook for secondary Art &amp; Design teachers — twenty contributors, twenty distinct essays spanning curriculum history, assessment, creativity, sustainability, and inclusive teaching practice.</p>
+    <button class="settings-save" id="panel-enter-btn">Enter the Study →</button>
+    <div class="logout-row"><a onclick="deleteCurrentBook()">Remove this book</a></div>
   </div>
 </div>
 
@@ -713,7 +780,9 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 /* =========================================================================
    DATA — all 20 chapters live in Supabase (project: Dean Close Library).
    Chapter text is fetched on demand when the reader opens a chapter, then
@@ -723,21 +792,18 @@ const SUPABASE_URL = 'https://umprtpgafpyxdvktwzjl.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtcHJ0cGdhZnB5eGR2a3R3empsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0NjExMjYsImV4cCI6MjA5OTAzNzEyNn0.-yiqIAMBM501WXzRaakqd4Pr9nlYrEJzYDO5iNLcUgM';
 let currentChapter = null; // { chapter_num, title, author, pages:[{printed_page,text}] } — populated by fetchChapter()
 const chapterCache = {};
-async function fetchChapter(n){
-  if(chapterCache[n]) return chapterCache[n];
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/chapters?chapter_num=eq.${n}&select=chapter_num,title,author,pages`, {
-    headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
-  });
-  if(!res.ok) throw new Error('Could not reach the library (' + res.status + ')');
-  const rows = await res.json();
-  if(!rows || !rows.length) throw new Error('Chapter ' + n + ' was not found in the library.');
-  chapterCache[n] = rows[0];
+async function fetchChapter(bookId, n){
+  const cacheKey = `${bookId}:${n}`;
+  if(chapterCache[cacheKey]) return chapterCache[cacheKey];
+  const rows = await sbGet('chapters', `book_id=eq.${bookId}&chapter_num=eq.${n}&select=chapter_num,title,author,pages`);
+  if(!rows || !rows.length) throw new Error('Chapter ' + n + ' was not found in this book.');
+  chapterCache[cacheKey] = rows[0];
   return rows[0];
 }
-function chLabel(n){ return 'Chapter ' + String(n).padStart(2,'0'); }
+function chLabel(n){ return n === 0 ? 'Foreword & Introduction' : 'Chapter ' + String(n).padStart(2,'0'); }
 
 /* ---- Supabase persistence layer (multi-user via Supabase Auth) --------- */
-const BOOK_ID = '94ba430e-407e-4160-8150-4e40a565e6aa';
+let currentBook = null; // { id, slug, title, author, total_chapters }
 let SB_USER = null; // set to the signed-in user's uuid after auth
 let currentSession = null; // { access_token, refresh_token, expires_at, user:{id,email} }
 const AUTH_STORAGE_KEY = 'the_study_session';
@@ -920,8 +986,9 @@ async function refreshStats(){
 function showView(id){
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.getElementById('low-bar').style.display = (id === 'lobby-view' || id === 'matron-view') ? 'flex' : 'none';
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.nav === (id === 'lobby-view' ? 'lobby' : id === 'matron-view' ? 'matron' : '')));
+  const navMap = { 'lobby-view':'lobby', 'store-view':'store', 'matron-view':'matron' };
+  document.getElementById('low-bar').style.display = navMap[id] ? 'flex' : 'none';
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.nav === (navMap[id] || '')));
   if(id === 'matron-view') renderMatron();
 }
 
@@ -934,36 +1001,81 @@ document.querySelectorAll('.overlay').forEach(ov => {
 /* =========================================================================
    LOBBY
    ========================================================================= */
-const BOOKS = [{
-  id: "art-design-guide", title: "A Practical Guide to Teaching Art and Design in the Secondary School",
-  author: "Andy Ash & Peter Carr, et al.", chapters: 20, chaptersRead: 0, progress: 0, status: "reading"
-}];
+let BOOKS = []; // loaded from Supabase (books this user has uploaded)
 function bindingDots(){ return [22,50,78].map(top => `<span class="stitch" style="top:${top}%"></span>`).join(''); }
 const shelf1 = document.getElementById('shelf-1');
 function renderShelf(){
   shelf1.innerHTML = '';
+  if(BOOKS.length === 0){
+    shelf1.innerHTML = `<div style="grid-column:1/-1; font-size:12.5px; color:var(--ink-faint); padding:8px 0;">Your shelf is empty — add a book from the Store.</div>`;
+    return;
+  }
   BOOKS.forEach(book => {
     const el = document.createElement('div');
     el.className = 'book-card';
     el.innerHTML = `
       <div class="binding">${bindingDots()}</div>
       <div class="card-eyebrow">In Progress</div>
-      <div class="card-title">${book.title}</div>
-      <div class="card-author">${book.author}</div>
+      <div class="card-title">${escapeHtml(book.title)}</div>
+      <div class="card-author">${escapeHtml(book.author)}</div>
       <div class="card-progress-row">
-        <div class="card-progress-track"><div class="card-progress-fill" style="width:${Math.round(book.progress*100)}%"></div></div>
-        <div class="card-progress-pct">${book.chaptersRead}/${book.chapters}</div>
+        <div class="card-progress-track"><div class="card-progress-fill" style="width:${Math.round((book.progress||0)*100)}%"></div></div>
+        <div class="card-progress-pct">${book.chaptersRead||0}/${book.total_chapters}</div>
       </div>`;
-    el.addEventListener('click', () => openSheet('book-panel-overlay'));
+    el.addEventListener('click', () => openBookPanel(book));
     shelf1.appendChild(el);
   });
 }
-function syncBookProgress(){ BOOKS[0].chaptersRead = doneCount; BOOKS[0].progress = pct/100; renderShelf(); }
+async function loadBooks(){
+  try{
+    BOOKS = await sbGet('books', `uploaded_by=eq.${SB_USER}&order=created_at.asc&select=id,slug,title,author,total_chapters`);
+  }catch(e){ console.warn('Could not load books:', e.message); BOOKS = []; }
+  try{
+    const doneRows = await sbGet('chapter_status', `user_id=eq.${SB_USER}&status=eq.complete&select=book_id`);
+    const doneCounts = {};
+    doneRows.forEach(r => { doneCounts[r.book_id] = (doneCounts[r.book_id]||0) + 1; });
+    BOOKS.forEach(b => { b.chaptersRead = doneCounts[b.id] || 0; b.progress = b.total_chapters ? b.chaptersRead / b.total_chapters : 0; });
+  }catch(e){ console.warn('Could not load reading progress:', e.message); }
+  renderShelf();
+}
+function openBookPanel(book){
+  currentBook = book;
+  document.getElementById('panel-book-title').textContent = book.title;
+  document.getElementById('panel-book-desc').textContent = `By ${book.author} — ${book.total_chapters} chapters.`;
+  openSheet('book-panel-overlay');
+}
+document.getElementById('panel-enter-btn').addEventListener('click', async () => {
+  closeSheet('book-panel-overlay');
+  await enterBook(currentBook);
+});
+async function enterBook(book){
+  currentBook = book;
+  document.getElementById('reader-name').value = '';
+  document.getElementById('reader-gender').value = 'neutral';
+  document.getElementById('chapterlist-topbar-title').textContent = book.title;
+  document.getElementById('hero-title').textContent = book.title;
+  document.getElementById('hero-author').textContent = `${book.author} — ${book.total_chapters} chapters`;
+  showView('chapterlist-view');
+  await loadChaptersForBook(book.id);
+  loadChapterStatuses();
+  loadUserProgress();
+}
+async function deleteCurrentBook(){
+  if(!currentBook) return;
+  if(!confirm(`Remove "${currentBook.title}" from your shelf? This deletes all its chapters and cannot be undone.`)) return;
+  try{
+    await fetch(`${SUPABASE_URL}/rest/v1/books?id=eq.${currentBook.id}`, { method:'DELETE', headers: sbHeaders() });
+    closeSheet('book-panel-overlay');
+    currentBook = null;
+    loadBooks();
+  }catch(e){ alert('Could not remove that book: ' + e.message); }
+}
 document.getElementById('panel-close').addEventListener('click', () => closeSheet('book-panel-overlay'));
 document.getElementById('lobby-search').addEventListener('input', (e) => {
   const q = e.target.value.trim().toLowerCase();
   document.querySelectorAll('#shelf-1 .book-card').forEach((el,i) => {
     const b = BOOKS[i];
+    if(!b) return;
     el.style.display = (b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q)) ? '' : 'none';
   });
 });
@@ -971,28 +1083,7 @@ document.getElementById('lobby-search').addEventListener('input', (e) => {
 /* =========================================================================
    CHAPTER LIST
    ========================================================================= */
-const CHAPTERS = [
-  {n:1, title:"Remapping the Curriculum: A Landscape Designed for the Future, Part 1", author:"Ged Gast & Andy Ash", pages:"13–26", status:"complete"},
-  {n:2, title:"Strategies to Mobilise Cognition in Secondary Art and Design", author:"Rebecca Heaton", pages:"27–48", status:"complete"},
-  {n:3, title:"Transforming Teaching: Demonstration, Modelling and the Art of Instruction", author:"Andrea Pratt", pages:"49–61", status:"reading"},
-  {n:4, title:"Is 'School Art' Always a Bad Thing?", author:"Carol Wild", pages:"62–74", status:"unread"},
-  {n:5, title:"The Art of Managing Coursework in Art and Design", author:"Stephanie Cubbin", pages:"75–86", status:"unread"},
-  {n:6, title:"Facilitating Artistic Behaviours in the Classroom", author:"Kate Thackara", pages:"87–97", status:"unread"},
-  {n:7, title:"Well-Being in the Art Classroom", author:"Michele Gregson", pages:"98–114", status:"unread"},
-  {n:8, title:"Creativity, Designerly Thinking and the Wicked Problems of Life", author:"Gary Granville, Emma Creighton & Fiona Byrne", pages:"115–127", status:"unread"},
-  {n:9, title:"Adventurous Teaching-Learning with Assessment", author:"Bayley Morris", pages:"128–140", status:"unread"},
-  {n:10, title:"Photography and Pedagogy", author:"Jo Fursman", pages:"141–155", status:"unread"},
-  {n:11, title:"Encouraging Critical Awareness Through Art and Design Education", author:"Will Grant", pages:"156–168", status:"unread"},
-  {n:12, title:"Privacy versus Public", author:"Teresa Torres de Eça & Ângela Saldanha", pages:"169–180", status:"unread"},
-  {n:13, title:"Art History in the Art and Design Curriculum", author:"Neil Walton", pages:"181–191", status:"unread"},
-  {n:14, title:"The Pupil-Curator", author:"Andy Ash & Marquard Smith", pages:"192–206", status:"unread"},
-  {n:15, title:"Personalising Decolonisation", author:"Marlene Wylie", pages:"207–220", status:"unread"},
-  {n:16, title:"Queering the Art Classroom", author:"Tabitha V.P. Millett", pages:"221–235", status:"unread"},
-  {n:17, title:"Addressing Sustainability in Art and Design", author:"Henrietta Patience", pages:"236–249", status:"unread"},
-  {n:18, title:"Advancing an Anti-Ableist Pedagogy", author:"Claire Penketh & Sandra Hiett", pages:"250–260", status:"unread"},
-  {n:19, title:"Critical Perspectives and Teaching Strategies for Addressing Peace and Peacebuilding", author:"Mousumi De & Ernst Wagner", pages:"261–275", status:"unread"},
-  {n:20, title:"Remapping the Curriculum: A Landscape Designed for the Future, Part 2", author:"Andy Ash & Ged Gast", pages:"276–290", status:"unread"},
-];
+let CHAPTERS = [];
 const STATUS_LABEL = { unread:"Unread", reading:"In Progress", complete:"Read" };
 const chapterListEl = document.getElementById('chapter-list');
 let pct = 0, doneCount = 0;
@@ -1002,13 +1093,27 @@ const TITLES = [
   {max:85, label:"Nearly Fluent"}, {max:101,label:"Thoroughly Versed"},
 ];
 
+async function loadChaptersForBook(bookId){
+  chapterListEl.innerHTML = '<div class="sheet-loading">Loading chapters…</div>';
+  try{
+    const rows = await sbGet('chapters', `book_id=eq.${bookId}&order=chapter_num.asc&select=chapter_num,title,author,printed_page_start,printed_page_end`);
+    CHAPTERS = rows.map(r => ({
+      n: r.chapter_num, title: r.title, author: r.author,
+      pages: (r.printed_page_start && r.printed_page_end) ? `${r.printed_page_start}–${r.printed_page_end}` : '—',
+      status: 'unread'
+    }));
+  }catch(e){ console.warn('Could not load chapters:', e.message); CHAPTERS = []; }
+  renderChapterListRows();
+  refreshProgressUI();
+}
+
 function renderChapterListRows(){
   chapterListEl.innerHTML = '';
   CHAPTERS.forEach(ch => {
     const row = document.createElement('div');
     row.className = `chapter-row status-${ch.status}`;
     row.innerHTML = `
-      <div class="chapter-num">${String(ch.n).padStart(2,'0')}</div>
+      <div class="chapter-num">${ch.n === 0 ? '—' : String(ch.n).padStart(2,'0')}</div>
       <div class="chapter-body">
         <div class="chapter-title">${ch.title}</div>
         <div class="chapter-author">${ch.author}</div>
@@ -1023,43 +1128,43 @@ function renderChapterListRows(){
   });
 }
 function refreshProgressUI(){
-  const total = CHAPTERS.length;
+  const total = CHAPTERS.length || 1;
   doneCount = CHAPTERS.filter(c => c.status === 'complete').length;
   pct = Math.round((doneCount/total)*100);
   document.getElementById('progress-pct-label').textContent = pct + '%';
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('reader-title-badge').textContent = (TITLES.find(t => pct < t.max) || TITLES[TITLES.length-1]).label;
 }
-renderChapterListRows();
-refreshProgressUI();
 
 let CHAPTER_STATUS = {}; // chapter_num -> status, from Supabase (source of truth once loaded)
 async function loadChapterStatuses(){
+  if(!currentBook) return;
+  CHAPTER_STATUS = {};
   try{
-    const rows = await sbGet('chapter_status', `book_id=eq.${BOOK_ID}&user_id=eq.${SB_USER}&select=chapter_num,status`);
+    const rows = await sbGet('chapter_status', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&select=chapter_num,status`);
     rows.forEach(r => CHAPTER_STATUS[r.chapter_num] = r.status);
     CHAPTERS.forEach(ch => { ch.status = CHAPTER_STATUS[ch.n] || 'unread'; });
     renderChapterListRows();
     refreshProgressUI();
-    syncBookProgress();
   }catch(e){ console.warn('Could not load chapter progress from Supabase:', e.message); }
 }
 async function markChapterStatus(n, status){
   if(status === 'reading' && CHAPTER_STATUS[n] === 'complete') return; // never downgrade
   try{
-    await sbUpsert('chapter_status', { user_id:SB_USER, book_id:BOOK_ID, chapter_num:n, status, updated_at:new Date().toISOString() }, 'user_id,book_id,chapter_num');
+    await sbUpsert('chapter_status', { user_id:SB_USER, book_id:currentBook.id, chapter_num:n, status, updated_at:new Date().toISOString() }, 'user_id,book_id,chapter_num');
     CHAPTER_STATUS[n] = status;
     const ch = CHAPTERS.find(c => c.n === n); if(ch) ch.status = status;
     renderChapterListRows();
     refreshProgressUI();
-    syncBookProgress();
+    const b = BOOKS.find(x => x.id === currentBook.id);
+    if(b){ b.chaptersRead = CHAPTERS.filter(c => c.status === 'complete').length; b.progress = b.total_chapters ? b.chaptersRead / b.total_chapters : 0; renderShelf(); }
   }catch(e){ console.warn('Could not save chapter status:', e.message); }
 }
 
 /* ---- reader identity (name / pronoun), saved per book -------------- */
 async function loadUserProgress(){
   try{
-    const rows = await sbGet('user_book_progress', `book_id=eq.${BOOK_ID}&user_id=eq.${SB_USER}&select=reader_name,reader_pronoun`);
+    const rows = await sbGet('user_book_progress', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&select=reader_name,reader_pronoun`);
     if(rows[0]){
       document.getElementById('reader-name').value = rows[0].reader_name || '';
       document.getElementById('reader-gender').value = rows[0].reader_pronoun || 'neutral';
@@ -1071,7 +1176,7 @@ function saveIdentitySoon(){
   clearTimeout(identitySaveTimer);
   identitySaveTimer = setTimeout(() => {
     sbUpsert('user_book_progress', {
-      user_id: SB_USER, book_id: BOOK_ID,
+      user_id: SB_USER, book_id: currentBook.id,
       reader_name: document.getElementById('reader-name').value.trim(),
       reader_pronoun: document.getElementById('reader-gender').value,
       updated_at: new Date().toISOString()
@@ -1087,7 +1192,7 @@ async function openChapter(n, row){
   row.classList.add('loading');
   if(arrow) arrow.innerHTML = '<span class="row-spinner"></span>';
   try{
-    currentChapter = await fetchChapter(n);
+    currentChapter = await fetchChapter(currentBook.id, n);
     // switching chapters: previous chapter's chat/passages/exam state no longer applies
     Object.keys(conversations).forEach(r => conversations[r] = []);
     passagesRead = [];
@@ -1098,7 +1203,7 @@ async function openChapter(n, row){
     await Promise.all([ loadPassagesRead(), loadSavedWords() ]);
     renderSavedWords();
     markChapterStatus(n, 'reading'); // fire-and-forget
-    sbUpsert('user_book_progress', { user_id:SB_USER, book_id:BOOK_ID, current_chapter:n, updated_at:new Date().toISOString() }, 'user_id,book_id')
+    sbUpsert('user_book_progress', { user_id:SB_USER, book_id:currentBook.id, current_chapter:n, updated_at:new Date().toISOString() }, 'user_id,book_id')
       .catch(e => console.warn('Could not update current chapter:', e.message));
     showView('chat-view');
     switchRole('russell');
@@ -1153,13 +1258,13 @@ async function switchRole(role){
 
 async function loadConversation(role){
   try{
-    const rows = await sbGet('conversations', `book_id=eq.${BOOK_ID}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&character_role=eq.${role}&order=created_at.asc&select=message_role,content`);
+    const rows = await sbGet('conversations', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&character_role=eq.${role}&order=created_at.asc&select=message_role,content`);
     conversations[role] = rows.map(r => ({ role: r.message_role, content: r.content }));
   }catch(e){ console.warn('Could not load conversation history:', e.message); }
 }
 function saveMessage(role, messageRole, content){
   sbInsert('conversations', {
-    user_id: SB_USER, book_id: BOOK_ID, chapter_num: currentChapter.chapter_num,
+    user_id: SB_USER, book_id: currentBook.id, chapter_num: currentChapter.chapter_num,
     character_role: role, message_role: messageRole, content
   }).catch(e => console.warn('Could not save message:', e.message));
 }
@@ -1250,11 +1355,24 @@ document.getElementById('composer-input').addEventListener('input', function(){
 /* =========================================================================
    RUSSELL — passage reader
    ========================================================================= */
-function openReader(){ openSheet('reader-overlay'); readNextPassage(); }
+function openReader(){
+  openSheet('reader-overlay');
+  if(passagesRead.length > 0){
+    showPassage(passagesRead[passagesRead.length - 1], passagesRead.length);
+  } else {
+    readNextPassage();
+  }
+}
+function showPassage(p, index){
+  document.getElementById('reader-eyebrow').textContent = `${chLabel(currentChapter.chapter_num)} · Passage ${index}`;
+  document.getElementById('reader-heading').textContent = p.heading;
+  document.getElementById('reader-body').textContent = p.body;
+  document.getElementById('reader-page-num').textContent = `p. ${p.page}`;
+}
 
 async function loadPassagesRead(){
   try{
-    const rows = await sbGet('passages_read', `book_id=eq.${BOOK_ID}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&order=read_at.asc&select=heading,body,printed_page`);
+    const rows = await sbGet('passages_read', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&order=read_at.asc&select=heading,body,printed_page`);
     passagesRead = rows.map(r => ({ heading:r.heading, body:r.body, page:r.printed_page }));
   }catch(e){ console.warn('Could not load passage history:', e.message); passagesRead = []; }
 }
@@ -1277,7 +1395,7 @@ async function readNextPassage(){
     passagesRead.push(parsed);
     bumpActivity('passages_read_count');
     sbInsert('passages_read', {
-      user_id: SB_USER, book_id: BOOK_ID, chapter_num: currentChapter.chapter_num,
+      user_id: SB_USER, book_id: currentBook.id, chapter_num: currentChapter.chapter_num,
       heading: parsed.heading, body: parsed.body, printed_page: String(parsed.page)
     }).catch(e => console.warn('Could not save passage:', e.message));
     document.getElementById('reader-eyebrow').textContent = `${chLabel(currentChapter.chapter_num)} · Passage ${passagesRead.length}`;
@@ -1310,13 +1428,13 @@ async function doDictSearch(){
 }
 function saveWord(word, def){
   savedWords.unshift({word, def});
-  sbInsert('saved_words', { user_id:SB_USER, book_id:BOOK_ID, chapter_num:currentChapter.chapter_num, word, definition:def })
+  sbInsert('saved_words', { user_id:SB_USER, book_id:currentBook.id, chapter_num:currentChapter.chapter_num, word, definition:def })
     .catch(e => console.warn('Could not save word:', e.message));
   renderSavedWords();
 }
 async function loadSavedWords(){
   try{
-    const rows = await sbGet('saved_words', `book_id=eq.${BOOK_ID}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&order=created_at.desc&select=word,definition`);
+    const rows = await sbGet('saved_words', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&order=created_at.desc&select=word,definition`);
     savedWords = rows.map(r => ({ word:r.word, def:r.definition }));
   }catch(e){ console.warn('Could not load saved words:', e.message); savedWords = []; }
 }
@@ -1332,7 +1450,7 @@ async function openNotes(){
   ta.value = 'Loading…'; ta.disabled = true;
   openSheet('notes-overlay');
   try{
-    const rows = await sbGet('notes', `book_id=eq.${BOOK_ID}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&select=content`);
+    const rows = await sbGet('notes', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&select=content`);
     ta.value = (rows[0] && rows[0].content) || '';
   }catch(e){ console.warn('Could not load notes:', e.message); ta.value = ''; }
   ta.disabled = false;
@@ -1343,7 +1461,7 @@ document.getElementById('notes-textarea').addEventListener('input', function(){
   clearTimeout(notesSaveTimer);
   notesSaveTimer = setTimeout(() => {
     if(!currentChapter) return;
-    sbUpsert('notes', { user_id:SB_USER, book_id:BOOK_ID, chapter_num:currentChapter.chapter_num, content, updated_at:new Date().toISOString() }, 'user_id,book_id,chapter_num')
+    sbUpsert('notes', { user_id:SB_USER, book_id:currentBook.id, chapter_num:currentChapter.chapter_num, content, updated_at:new Date().toISOString() }, 'user_id,book_id,chapter_num')
       .catch(e => console.warn('Could not save notes:', e.message));
   }, 800);
 });
@@ -1500,7 +1618,7 @@ async function submitExam(){
         </div>`).join('')}
     `;
     sbInsert('exam_records', {
-      user_id: SB_USER, book_id: BOOK_ID, chapter_num: currentChapter.chapter_num,
+      user_id: SB_USER, book_id: currentBook.id, chapter_num: currentChapter.chapter_num,
       exam_type: currentExam.type, source: currentExam.source,
       questions: currentExam.questions, answers, score: parsed.score, total: parsed.total,
       verdict: parsed.verdict, results: parsed.results
@@ -1587,24 +1705,234 @@ function renderMatron(){
     {name:"Know-It-All-in-Training", count: savedWords.length},
   ].filter(b => b.count > 0);
 
-  document.getElementById('books-list').innerHTML = `
+  if(BOOKS.length === 0){
+    document.getElementById('books-list').innerHTML = `<div style="font-size:12.5px; color:var(--ink-faint);">No books yet — add one from the Store.</div>`;
+    return;
+  }
+
+  document.getElementById('books-list').innerHTML = BOOKS.map(book => {
+    const bookPct = Math.round((book.progress||0) * 100);
+    const badgeLabel = (TITLES.find(t => bookPct < t.max) || TITLES[TITLES.length-1]).label;
+    const isCurrent = currentBook && currentBook.id === book.id;
+    return `
     <div class="book-progress-card">
       <div class="bp-top">
-        <div class="bp-title">A Practical Guide to Teaching Art and Design</div>
-        <div class="bp-badge">${document.getElementById('reader-title-badge').textContent}</div>
+        <div class="bp-title">${escapeHtml(book.title)}</div>
+        <div class="bp-badge">${badgeLabel}</div>
       </div>
       <div class="bp-progress-row">
-        <div class="bp-track"><div class="bp-fill" style="width:${pct}%"></div></div>
-        <div class="bp-pct">${doneCount}/${CHAPTERS.length}</div>
+        <div class="bp-track"><div class="bp-fill" style="width:${bookPct}%"></div></div>
+        <div class="bp-pct">${book.chaptersRead||0}/${book.total_chapters}</div>
       </div>
+      ${isCurrent ? `
       <div class="badges-toggle" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');">
         <span>Achievements (${badges.length})</span>
         <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="badges-panel">
         ${badges.length ? badges.map(b => `<div class="badge-row"><span>${b.name}</span><span class="badge-count">×${b.count}</span></div>`).join('') : '<div style="font-size:11px; color:var(--ink-faint); padding-bottom:12px;">Nothing yet this session — go talk to someone.</div>'}
-      </div>
+      </div>` : ''}
     </div>`;
+  }).join('');
+}
+
+/* =========================================================================
+   STORE — upload a PDF, detect chapters, save to Supabase
+   ========================================================================= */
+let storeExtractedPages = []; // [{pdf_page, text}] from the uploaded PDF, kept in memory until saved
+let storeDetected = null;     // {title, author, chapters:[{title, author, page_start, page_end}]}
+
+const storeFileInput = document.getElementById('store-file-input');
+const storeFileLabel = document.getElementById('store-file-label');
+const storeFileName = document.getElementById('store-file-name');
+const storeAnalyzeBtn = document.getElementById('store-analyze-btn');
+
+storeFileInput.addEventListener('change', () => {
+  const f = storeFileInput.files[0];
+  if(!f) return;
+  storeFileName.textContent = f.name;
+  storeFileLabel.classList.add('has-file');
+  storeAnalyzeBtn.disabled = false;
+});
+storeAnalyzeBtn.addEventListener('click', analyzeStoreFile);
+
+function showStorePanel(name){
+  ['upload','processing','error','review'].forEach(p => {
+    document.getElementById(`store-${p}-panel`).style.display = (p === name) ? 'block' : 'none';
+  });
+}
+function resetStore(){
+  storeExtractedPages = [];
+  storeDetected = null;
+  storeFileInput.value = '';
+  storeFileName.textContent = 'Choose a PDF…';
+  storeFileLabel.classList.remove('has-file');
+  storeAnalyzeBtn.disabled = true;
+  showStorePanel('upload');
+}
+function setStoreStatus(text, pct){
+  document.getElementById('store-status-text').textContent = text;
+  document.getElementById('store-progress-fill').style.width = (pct||0) + '%';
+}
+
+async function analyzeStoreFile(){
+  const file = storeFileInput.files[0];
+  if(!file) return;
+  showStorePanel('processing');
+  setStoreStatus('Reading the PDF…', 5);
+
+  try{
+    // 1. Extract raw text per page, entirely client-side
+    const buf = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+    const numPages = pdf.numPages;
+    if(numPages > 700){
+      throw new Error(`That PDF has ${numPages} pages — too large for this to process comfortably. Try a shorter book.`);
+    }
+    const pages = [];
+    for(let i = 1; i <= numPages; i++){
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const text = content.items.map(it => it.str).join(' ').replace(/\s+/g, ' ').trim();
+      pages.push({ pdf_page: i, text });
+      if(i % 5 === 0 || i === numPages){
+        setStoreStatus(`Reading page ${i} of ${numPages}…`, 5 + Math.round((i/numPages)*45));
+      }
+    }
+
+    // 2. Sanity check: does this PDF actually have a text layer?
+    const totalChars = pages.reduce((s,p) => s + p.text.length, 0);
+    const avgCharsPerPage = totalChars / numPages;
+    if(avgCharsPerPage < 40){
+      throw new Error("This PDF doesn't seem to have selectable text — it's likely a scanned or photographed book. This uploader only works with text-based PDFs.");
+    }
+
+    // 3. Strip a repeating running header/footer, if there is one (frequency-based)
+    cleanRunningHeaders(pages);
+    storeExtractedPages = pages;
+
+    // 4. Ask Claude to detect structure from a condensed probe (not the full text —
+    //    keeps this fast and cheap regardless of book length)
+    setStoreStatus('Identifying chapters…', 55);
+    const probe = pages.map(p => `--- page ${p.pdf_page} ---\n${p.text.slice(0, 220)}`).join('\n');
+    const system = `You are analyzing the extracted text of a book's pages to help a reading app import it. You are given the first ~220 characters of every page, labelled with its page number. Determine:
+1. Whether this looks like usable, coherent book text (not garbled OCR noise, not mostly non-text symbols).
+2. The book's title and author, if visible (usually on early pages).
+3. A reasonable chapter breakdown: each chapter's title, author (if the book has different authors per chapter — otherwise repeat the book's author), and its start/end page numbers, based on where chapter headings appear to begin in this excerpt data. Skip front matter (title page, copyright, table of contents) — start from where the real content begins. It's fine to be approximate; the user will review and correct this.
+Respond with ONLY valid JSON, no markdown, in this exact shape:
+{"feasible": true, "reason": null, "title": "...", "author": "...", "chapters": [{"title": "...", "author": "...", "page_start": 1, "page_end": 12}]}
+If the text is not usable (garbled/OCR noise), respond: {"feasible": false, "reason": "short explanation", "title": null, "author": null, "chapters": []}
+
+PAGE EXCERPTS:\n${probe}`;
+    const reply = await callClaude({ model: MODELS.standard, system, messages:[{role:'user', content:'Analyze this book.'}], maxTokens: 4000 });
+    const parsed = extractJson(reply);
+    setStoreStatus('Done', 100);
+
+    if(!parsed.feasible){
+      document.getElementById('store-error-msg').textContent = parsed.reason || "Claude couldn't make sense of this PDF's text.";
+      showStorePanel('error');
+      return;
+    }
+    storeDetected = parsed;
+    renderChapterReview(parsed);
+    showStorePanel('review');
+  } catch(err){
+    document.getElementById('store-error-msg').textContent = err.message;
+    showStorePanel('error');
+  }
+}
+
+function cleanRunningHeaders(pages){
+  // Find short first-lines that repeat identically across many pages (running headers)
+  const firstLineCounts = {};
+  pages.forEach(p => {
+    const firstLine = p.text.slice(0, 60).split(/(?<=[a-z])(?=[A-Z])/)[0]; // rough heuristic
+    const key = p.text.slice(0, 40).trim();
+    if(key.length > 3 && key.length < 50){ firstLineCounts[key] = (firstLineCounts[key]||0) + 1; }
+  });
+  const threshold = Math.max(3, pages.length * 0.3);
+  const repeats = Object.keys(firstLineCounts).filter(k => firstLineCounts[k] >= threshold);
+  if(repeats.length === 0) return;
+  pages.forEach(p => {
+    repeats.forEach(r => { if(p.text.startsWith(r)) p.text = p.text.slice(r.length).trim(); });
+  });
+}
+
+function renderChapterReview(detected){
+  document.getElementById('store-book-title').value = detected.title || '';
+  document.getElementById('store-book-author').value = detected.author || '';
+  const rowsEl = document.getElementById('store-chapter-rows');
+  rowsEl.innerHTML = '';
+  detected.chapters.forEach(ch => addStoreChapterRow(ch));
+}
+
+function addStoreChapterRow(ch){
+  const rowsEl = document.getElementById('store-chapter-rows');
+  const idx = rowsEl.children.length + 1;
+  const row = document.createElement('div');
+  row.className = 'store-chapter-row';
+  row.innerHTML = `
+    <div class="store-chapter-row-top">
+      <div class="store-chapter-num">${idx}.</div>
+      <input type="text" class="store-ch-title" placeholder="Chapter title" value="${escapeHtml((ch && ch.title) || '')}">
+      <span class="store-row-remove" onclick="this.closest('.store-chapter-row').remove(); renumberStoreRows();">&times;</span>
+    </div>
+    <div class="store-page-fields">
+      <input type="text" class="store-ch-author" placeholder="Author" value="${escapeHtml((ch && ch.author) || '')}" style="flex:1; margin-right:8px;">
+      <label>From p.</label><input type="number" class="store-ch-start" value="${(ch && ch.page_start) || ''}" min="1">
+      <label>to p.</label><input type="number" class="store-ch-end" value="${(ch && ch.page_end) || ''}" min="1">
+    </div>`;
+  rowsEl.appendChild(row);
+}
+function renumberStoreRows(){
+  document.querySelectorAll('#store-chapter-rows .store-chapter-num').forEach((el,i) => { el.textContent = (i+1) + '.'; });
+}
+
+async function saveNewBook(){
+  const title = document.getElementById('store-book-title').value.trim();
+  const author = document.getElementById('store-book-author').value.trim();
+  if(!title || !author){ alert('Please fill in both title and author.'); return; }
+
+  const rows = [...document.querySelectorAll('#store-chapter-rows .store-chapter-row')].map(row => ({
+    title: row.querySelector('.store-ch-title').value.trim(),
+    author: row.querySelector('.store-ch-author').value.trim(),
+    page_start: parseInt(row.querySelector('.store-ch-start').value, 10),
+    page_end: parseInt(row.querySelector('.store-ch-end').value, 10)
+  }));
+  if(rows.length === 0){ alert('Add at least one chapter.'); return; }
+  for(const r of rows){
+    if(!r.title || !r.page_start || !r.page_end || r.page_end < r.page_start){
+      alert('Every chapter needs a title and a valid page range.'); return;
+    }
+  }
+
+  const saveBtn = document.querySelector('#store-review-panel .settings-save');
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'Saving…';
+  try{
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 60) + '-' + Date.now().toString(36);
+    const [book] = await sbInsert('books', { uploaded_by: SB_USER, slug, title, author, total_chapters: rows.length });
+
+    for(let i = 0; i < rows.length; i++){
+      const r = rows[i];
+      const chapterPages = storeExtractedPages
+        .filter(p => p.pdf_page >= r.page_start && p.pdf_page <= r.page_end)
+        .map(p => ({ pdf_page: p.pdf_page, printed_page: null, text: p.text }));
+      await sbInsert('chapters', {
+        book_id: book.id, chapter_num: i + 1, title: r.title, author: r.author,
+        pdf_page_start: r.page_start, pdf_page_end: r.page_end, pages: chapterPages
+      });
+    }
+
+    resetStore();
+    await loadBooks();
+    showView('lobby-view');
+  } catch(err){
+    alert('Could not save this book: ' + err.message);
+  } finally{
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Save to My Shelf';
+  }
 }
 
 /* =========================================================================
@@ -1612,10 +1940,8 @@ function renderMatron(){
    ========================================================================= */
 function initApp(){
   renderSavedWords();
-  renderShelf();
-  loadChapterStatuses();
+  loadBooks();
   refreshStats();
-  loadUserProgress();
 }
 
 function enterAppAsUser(){
