@@ -930,10 +930,18 @@ async function callClaude({model, system, messages, tools, maxTokens}){
 
 function extractJson(text){
   // strip markdown fences if the model added them despite instructions
-  const cleaned = text.replace(/```json|```/g, '').trim();
+  let cleaned = text.replace(/```json|```/g, '').trim();
   try{
     return JSON.parse(cleaned);
   }catch(err){
+    // fallback: pull out the outermost {...} in case the model added
+    // any commentary before/after the JSON object
+    const start = cleaned.indexOf('{');
+    const end = cleaned.lastIndexOf('}');
+    if(start !== -1 && end > start){
+      try{ return JSON.parse(cleaned.slice(start, end+1)); }
+      catch(err2){ /* fall through to the error below */ }
+    }
     console.error('Could not parse JSON from model reply. Raw reply was:', cleaned);
     throw new Error(`The Librarian's reply wasn't valid JSON (${err.message}). Raw start: "${cleaned.slice(0,120)}${cleaned.length>120?'…':''}"`);
   }
@@ -1841,14 +1849,12 @@ Respond with ONLY valid JSON, no markdown, no commentary before or after — you
 If the text is not usable (garbled/OCR noise), respond: {"feasible": false, "reason": "short explanation", "title": null, "author": null, "chapters": []}
 
 PAGE EXCERPTS:\n${probe}`;
-    // Prefill the reply with "{" so the model can't preface it with commentary —
-    // this is the standard way to guarantee JSON-only output.
     const reply = await callClaude({
       model: MODELS.standard, system,
-      messages: [{role:'user', content:'Analyze this book.'}, {role:'assistant', content:'{'}],
+      messages: [{role:'user', content:'Analyze this book.'}],
       maxTokens: 8000
     });
-    const parsed = extractJson('{' + reply);
+    const parsed = extractJson(reply);
     setStoreStatus('Done', 100);
 
     if(!parsed.feasible){
