@@ -249,6 +249,14 @@
   .hall-title em{ font-style:italic; color:var(--indigo); }
   .hall-rule{ width:36px; height:1px; background:var(--thread); margin:16px auto; }
   .hall-sub{ font-size:12.5px; color:var(--ink-soft); letter-spacing:.3px; font-family:'Shippori Mincho', serif; font-style:italic; }
+  .settings-lang-row{ display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin:18px 0; }
+  .settings-lang-label{ font-size:12.5px; color:var(--ink-soft); }
+  .locale-toggle{ display:flex; align-items:center; gap:6px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  .locale-toggle-label{ font-size:10px; letter-spacing:.5px; color:var(--ink-faint); font-weight:500; transition:color .2s; }
+  .locale-toggle-label.active{ color:var(--indigo); }
+  .locale-toggle-track{ width:34px; height:18px; border-radius:10px; background:var(--paper-card); border:1px solid var(--line); position:relative; }
+  .locale-toggle-thumb{ position:absolute; top:1px; left:1px; width:14px; height:14px; border-radius:50%; background:var(--indigo); transition:transform .2s; }
+  .locale-toggle-thumb.zh{ transform:translateX(16px); }
   .search-wrap{ max-width:600px; margin:0 auto 40px; display:flex; align-items:center; gap:10px; }
   .search-box{ position:relative; flex:1; }
   .search-box svg{ position:absolute; left:2px; top:50%; transform:translateY(-50%); width:14px; height:14px; stroke:var(--ink-faint); }
@@ -437,10 +445,10 @@
 <div class="view" id="lobby-view">
   <div id="lobby-scroll">
     <div class="hall-header">
-      <div class="hall-eyebrow">Private Study</div>
-      <h1 class="hall-title">The <em>Study</em></h1>
+      <div class="hall-eyebrow" id="hall-eyebrow">Private Study</div>
+      <h1 class="hall-title" id="hall-title">The <em>Study</em></h1>
       <div class="hall-rule"></div>
-      <p class="hall-sub">a quiet place to keep your books</p>
+      <p class="hall-sub" id="hall-sub">a quiet place to keep your books</p>
     </div>
     <div class="search-wrap">
       <div class="search-box">
@@ -452,7 +460,7 @@
       </div>
     </div>
     <div class="shelf-section">
-      <div class="shelf-label">Currently Reading</div>
+      <div class="shelf-label" id="shelf-label">Currently Reading</div>
       <div class="shelf-grid" id="shelf-1"></div>
     </div>
   </div>
@@ -502,11 +510,11 @@
       </div>
     </div>
     <div class="role-tabs">
-      <div class="role-tab" data-role="russell" onclick="switchRole('russell')"><div class="avatar">R</div><span>Professor</span></div>
-      <div class="role-tab" data-role="slade" onclick="switchRole('slade')"><div class="avatar">S</div><span>Teacher</span></div>
-      <div class="role-tab" data-role="dobby" onclick="switchRole('dobby')"><div class="avatar">D</div><span>Dobby</span></div>
-      <div class="role-tab" data-role="jed" onclick="switchRole('jed')"><div class="avatar">J</div><span>Jed</span></div>
-      <div class="role-tab" data-role="hardaker" onclick="switchRole('hardaker')"><div class="avatar">H</div><span>Headmaster</span></div>
+      <div class="role-tab" data-role="russell" onclick="switchRole('russell')"><div class="avatar" id="tab-avatar-russell">R</div><span id="tab-label-russell">Professor</span></div>
+      <div class="role-tab" data-role="slade" onclick="switchRole('slade')"><div class="avatar" id="tab-avatar-slade">S</div><span id="tab-label-slade">Teacher</span></div>
+      <div class="role-tab" data-role="dobby" onclick="switchRole('dobby')"><div class="avatar" id="tab-avatar-dobby">D</div><span id="tab-label-dobby">Dobby</span></div>
+      <div class="role-tab" data-role="jed" onclick="switchRole('jed')"><div class="avatar" id="tab-avatar-jed">J</div><span id="tab-label-jed">Jed</span></div>
+      <div class="role-tab" data-role="hardaker" onclick="switchRole('hardaker')"><div class="avatar" id="tab-avatar-hardaker">H</div><span id="tab-label-hardaker">Headmaster</span></div>
     </div>
   </div>
 
@@ -526,8 +534,8 @@
 <div class="view" id="matron-view">
   <div id="matron-scroll">
     <div class="matron-header">
-      <div class="matron-eyebrow">Matron's Office</div>
-      <h1 class="matron-title">Progress &amp; Discipline</h1>
+      <div class="matron-eyebrow" id="matron-eyebrow">Matron's Office</div>
+      <h1 class="matron-title" id="matron-title">Progress &amp; Discipline</h1>
       <div class="matron-quip" id="matron-quip">"Let's see how you've been getting on, then."</div>
     </div>
     <div class="activity-section">
@@ -551,13 +559,13 @@
 <div class="view" id="store-view">
   <div id="store-scroll">
     <div class="matron-header">
-      <div class="matron-eyebrow">The Store</div>
-      <h1 class="matron-title">Add a Book</h1>
-      <div class="matron-quip">Upload a text-based PDF and the Librarian will read it for you.</div>
+      <div class="matron-eyebrow" id="store-eyebrow">The Store</div>
+      <h1 class="matron-title" id="store-title">Add a Book</h1>
+      <div class="matron-quip" id="store-quip">Upload a text-based PDF and the Librarian will read it for you.</div>
     </div>
 
     <div class="store-panel" id="store-upload-panel">
-      <p class="store-hint">Works best with proper text-based PDFs (the kind where you can select and copy text in a normal PDF reader). Scanned or photographed pages won't work — there's no text layer for the Librarian to read.</p>
+      <p class="store-hint" id="store-hint">Works best with proper text-based PDFs (the kind where you can select and copy text in a normal PDF reader). Scanned or photographed pages won't work — there's no text layer for the Librarian to read.</p>
       <label class="store-file-label" id="store-file-label">
         <input type="file" id="store-file-input" accept="application/pdf" style="display:none;">
         <span id="store-file-name">Choose a PDF…</span>
@@ -572,17 +580,17 @@
 
     <div class="store-panel" id="store-error-panel" style="display:none;">
       <div class="store-error-msg" id="store-error-msg"></div>
-      <button class="settings-save" onclick="resetStore()">Try a Different File</button>
+      <button class="settings-save" id="store-retry-btn" onclick="resetStore()">Try a Different File</button>
     </div>
 
     <div class="store-panel" id="store-review-panel" style="display:none;">
-      <div class="settings-field"><label>Title</label><input type="text" id="store-book-title"></div>
-      <div class="settings-field"><label>Author</label><input type="text" id="store-book-author"></div>
-      <div class="store-review-hint">The Librarian's best guess at the chapter breaks — check these against the actual PDF page numbers (shown in your PDF viewer) and adjust anything that's off before saving. Leave the small author field under each chapter blank unless that specific chapter was written by someone different from the book's overall author.</div>
+      <div class="settings-field"><label id="store-title-label">Title</label><input type="text" id="store-book-title"></div>
+      <div class="settings-field"><label id="store-author-label">Author</label><input type="text" id="store-book-author"></div>
+      <div class="store-review-hint" id="store-review-hint">The Librarian's best guess at the chapter breaks — check these against the actual PDF page numbers (shown in your PDF viewer) and adjust anything that's off before saving. Leave the small author field under each chapter blank unless that specific chapter was written by someone different from the book's overall author.</div>
       <div id="store-chapter-rows"></div>
-      <button class="store-add-row-btn" onclick="addStoreChapterRow()">+ Add a chapter</button>
-      <button class="settings-save" onclick="saveNewBook()">Save to My Shelf</button>
-      <button class="store-cancel-btn" onclick="resetStore()">Cancel</button>
+      <button class="store-add-row-btn" id="store-add-row-btn" onclick="addStoreChapterRow()">+ Add a chapter</button>
+      <button class="settings-save" id="store-save-btn" onclick="saveNewBook()">Save to My Shelf</button>
+      <button class="store-cancel-btn" id="store-cancel-btn" onclick="resetStore()">Cancel</button>
     </div>
   </div>
 </div>
@@ -590,15 +598,15 @@
 <div id="low-bar">
   <div class="nav-btn active" data-nav="lobby" onclick="showView('lobby-view')">
     <svg viewBox="0 0 24 24"><path d="M4 19V6.6c0-.8.6-1.5 1.4-1.6L12 4l6.6 1c.8.1 1.4.8 1.4 1.6V19"/><path d="M4 19h16"/><path d="M9 4v15M15 4v15"/></svg>
-    <span>Library</span>
+    <span id="nav-label-lobby">Library</span>
   </div>
   <div class="nav-btn" data-nav="store" onclick="showView('store-view')">
     <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-    <span>Store</span>
+    <span id="nav-label-store">Store</span>
   </div>
   <div class="nav-btn" data-nav="matron" onclick="showView('matron-view')">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-    <span>Matron</span>
+    <span id="nav-label-matron">Matron</span>
   </div>
 </div>
 
@@ -618,12 +626,20 @@
 <div class="overlay" id="settings-overlay">
   <div class="sheet">
     <span class="sheet-close" onclick="closeSheet('settings-overlay')">&times;</span>
-    <div class="sheet-eyebrow">Configuration</div>
-    <div class="sheet-title">Account</div>
-    <div class="settings-hint">The Study runs on a shared Anthropic key kept privately on the server — there's nothing for you to configure here beyond your account.</div>
-    <div class="logout-row" style="margin-top:0; border-top:none; padding-top:0;">
+    <div class="sheet-eyebrow" id="settings-eyebrow">Configuration</div>
+    <div class="sheet-title" id="settings-title">Account</div>
+    <div class="settings-hint" id="settings-hint">The Study runs on a shared Anthropic key kept privately on the server — there's nothing for you to configure here beyond your account.</div>
+    <div class="settings-lang-row">
+      <div class="settings-lang-label" id="settings-lang-label">Language</div>
+      <div class="locale-toggle" id="locale-toggle" onclick="setLocale(LOCALE === 'en' ? 'zh' : 'en')">
+        <span class="locale-toggle-label" id="locale-toggle-en">EN</span>
+        <div class="locale-toggle-track"><div class="locale-toggle-thumb" id="locale-toggle-thumb"></div></div>
+        <span class="locale-toggle-label" id="locale-toggle-zh">中</span>
+      </div>
+    </div>
+    <div class="logout-row">
       <div style="font-size:13px; margin-bottom:8px;" id="account-email-label"></div>
-      <a onclick="doSignOut()">Sign Out</a>
+      <a onclick="doSignOut()" id="signout-link">Sign Out</a>
     </div>
   </div>
 </div>
@@ -671,6 +687,23 @@
       <span class="notes-saved-hint">saved automatically</span>
       <button class="export-btn" onclick="exportNotes()">Export as .txt</button>
     </div>
+  </div>
+</div>
+
+<!-- ================= attach your own paper (all roles) ================= -->
+<div class="overlay" id="attach-overlay">
+  <div class="sheet">
+    <span class="sheet-close" onclick="closeSheet('attach-overlay')">&times;</span>
+    <div class="sheet-eyebrow">Your Own Work</div>
+    <div class="sheet-title" id="attach-title">Your Paper</div>
+    <div class="settings-hint" id="attach-hint">Upload your own essay or paper (text-based PDF, up to 25 pages) and any of the characters can read and discuss it with you alongside the chapter.</div>
+    <label class="store-file-label" id="attach-file-label">
+      <input type="file" id="attach-file-input" accept="application/pdf" style="display:none;">
+      <span id="attach-file-name">Choose a PDF…</span>
+    </label>
+    <div class="store-progress-track" id="attach-progress-track" style="display:none;"><div class="store-progress-fill" id="attach-progress-fill" style="width:0%"></div></div>
+    <button class="settings-save" id="attach-btn" disabled>Attach to This Conversation</button>
+    <div class="settings-status" id="attach-status"></div>
   </div>
 </div>
 
@@ -797,12 +830,15 @@ const chapterCache = {};
 async function fetchChapter(bookId, n){
   const cacheKey = `${bookId}:${n}`;
   if(chapterCache[cacheKey]) return chapterCache[cacheKey];
-  const rows = await sbGet('chapters', `book_id=eq.${bookId}&chapter_num=eq.${n}&select=chapter_num,title,author,pages`);
+  const rows = await sbGet(tbl('chapters'), `book_id=eq.${bookId}&chapter_num=eq.${n}&select=chapter_num,title,author,pages`);
   if(!rows || !rows.length) throw new Error('Chapter ' + n + ' was not found in this book.');
   chapterCache[cacheKey] = rows[0];
   return rows[0];
 }
-function chLabel(n){ return n === 0 ? 'Foreword & Introduction' : 'Chapter ' + String(n).padStart(2,'0'); }
+function chLabel(n){
+  if(LOCALE === 'zh') return n === 0 ? '前言与导读' : '第' + n + '章';
+  return n === 0 ? 'Foreword & Introduction' : 'Chapter ' + String(n).padStart(2,'0');
+}
 
 /* ---- Supabase persistence layer (multi-user via Supabase Auth) --------- */
 let currentBook = null; // { id, slug, title, author, total_chapters }
@@ -881,6 +917,22 @@ function chapterFullText(){
   return currentChapter.pages.map(p => `[p.${p.printed_page}]\n${p.text}`).join('\n\n');
 }
 
+/* Used by Russell/Dobby/Jed's casual chat: rather than the whole chapter,
+   they only know what the user has actually read via the passage reader so
+   far. This tracks their reading progress honestly (Dobby shouldn't quiz you
+   on pages you haven't reached yet) and keeps the repeated per-message
+   payload small, especially early in a chapter. Slade (exams) and Hardaker
+   (whole-book) still get the full text — their tasks genuinely need it. */
+function scopedChapterText(){
+  if(!currentChapter) return '';
+  if(passagesRead.length === 0){
+    // nothing read yet — hand over a short opening excerpt so there's still
+    // something to talk about before the user has clicked "Next" even once
+    return currentChapter.pages.slice(0, 2).map(p => `[p.${p.printed_page}]\n${p.text}`).join('\n\n');
+  }
+  return passagesRead.map(p => `[p.${p.page}] ${p.heading}\n${p.body}`).join('\n\n');
+}
+
 /* =========================================================================
    MODEL CONFIG + CLAUDE PROXY
    ========================================================================= */
@@ -900,6 +952,15 @@ async function callClaude({model, system, messages, tools, maxTokens}){
   await ensureFreshSession();
   if(!currentSession){ throw new Error('Please sign in again.'); }
 
+  // Prompt caching: a plain string system prompt gets wrapped as a single
+  // cached block (huge win for chat, where the same persona+content repeats
+  // on every turn of a conversation). Callers that need a stable prefix
+  // followed by content that changes every call (e.g. a growing "already
+  // read" list) can instead pass system as a pre-built array of blocks,
+  // putting cache_control only on the stable part.
+  const systemPayload = typeof system === 'string'
+    ? [{ type:'text', text: system, cache_control: { type:'ephemeral' } }]
+    : system;
   const res = await fetch(CLAUDE_PROXY_URL, {
     method: 'POST',
     headers: {
@@ -907,7 +968,7 @@ async function callClaude({model, system, messages, tools, maxTokens}){
       apikey: SUPABASE_ANON_KEY,
       Authorization: `Bearer ${currentSession.access_token}`
     },
-    body: JSON.stringify({ model: model || MODELS.standard, system, messages, tools, maxTokens })
+    body: JSON.stringify({ model: model || MODELS.standard, system: systemPayload, messages, tools, maxTokens })
   });
   if(!res.ok){
     const errText = await res.text();
@@ -951,31 +1012,59 @@ function extractJson(text){
    CHARACTERS
    ========================================================================= */
 const CHARACTERS = {
-  russell: {
-    name: 'Professor Russell', avatar: 'R', model: MODELS.standard,
-    system: () => `You are Professor Russell, an elegant, warm, deeply knowledgeable old-school Cambridge don, guiding the user through ${chLabel(currentChapter.chapter_num)} ("${currentChapter.title}" by ${currentChapter.author}) of the book. Speak in long, generous, slightly winding sentences full of genuine affection for the subject; praise real insight without empty flattery. Ask thoughtful follow-up questions rather than just lecturing. Stay strictly within the content of this chapter (given below) unless the user clearly asks about something outside it, in which case gently note that and redirect. Keep replies to 2-4 sentences typically, conversational, never bullet-pointed.\n\nCHAPTER TEXT:\n${chapterFullText()}`
+  en: {
+    russell: {
+      name: 'Professor Russell', avatar: 'R', model: MODELS.standard,
+      system: () => `You are Professor Russell, an elegant, warm, deeply knowledgeable old-school Cambridge don, guiding the user through ${chLabel(currentChapter.chapter_num)} ("${currentChapter.title}" by ${currentChapter.author}) of the book, one passage at a time. Speak in long, generous, slightly winding sentences full of genuine affection for the subject; praise real insight without empty flattery. Ask thoughtful follow-up questions rather than just lecturing. Below is only what the user has read so far via the passage reader — stay strictly within that unless they clearly ask about something they haven't reached yet, in which case gently note that and suggest they read on before discussing it. Keep replies to 2-4 sentences typically, conversational, never bullet-pointed.\n\nTEXT READ SO FAR:\n${scopedChapterText()}`
+    },
+    slade: {
+      name: 'Mr Slade', avatar: 'S', model: MODELS.standard,
+      system: () => `You are Mr Slade, a brisk, exacting, no-nonsense British schoolteacher who is kind underneath but expresses it through high expectations rather than softness. You are chatting with the user about ${chLabel(currentChapter.chapter_num)} ("${currentChapter.title}" by ${currentChapter.author}), and separately you set and mark exams on it (handled elsewhere). In chat, keep replies short, direct, occasionally dryly witty. Stay within the chapter's content.\n\nCHAPTER TEXT:\n${chapterFullText()}`
+    },
+    dobby: {
+      name: 'Dobby', avatar: 'D', model: MODELS.standard,
+      system: () => `You are Dobby, a pupil who performs innocence and mild stupidity ("oh, sorry, probably a silly question, but...") while actually being extremely sharp — you use this fake-humble questioning style to relentlessly probe the user's understanding of ${chLabel(currentChapter.chapter_num)} ("${currentChapter.title}" by ${currentChapter.author}) until you find a real gap in their reasoning or they successfully defend their position. Only question them on what's given below (what they've actually read so far) — don't assume they know later parts of the chapter. You do NOT correct or teach — you only ask sharper and sharper follow-up questions that expose contradictions or unexamined assumptions in what the user just said. If the user seems genuinely stuck (says so explicitly), soften briefly and offer a small nudge, then return to questioning. Keep each reply to 1-3 sentences, in character, never breaking the innocent facade.\n\nTEXT READ SO FAR:\n${scopedChapterText()}`
+    },
+    jed: {
+      name: 'Jed', avatar: 'J', model: MODELS.standard,
+      system: (source) => `You are Jed, an outgoing, casual, opinionated "mate" studying alongside the user — not a teacher, a peer. You debate ${chLabel(currentChapter.chapter_num)} ("${currentChapter.title}" by ${currentChapter.author}) with genuine, sometimes contrarian opinions, bring up real-world tangents, and keep things conversational and informal ("oi", "fair", "change my mind"). Below is only what the user has actually read so far — base "the book" side of the debate on that, not on parts of the chapter they haven't reached. ${source === 'world' ? 'You have web search available — use it to bring in a real current article, news item, or discussion to argue from, and mention roughly what you found.' : 'Keep this discussion grounded in the chapter itself, not outside sources.'} Keep replies short and punchy, 2-4 sentences.\n\nTEXT READ SO FAR:\n${scopedChapterText()}`
+    },
+    hardaker: {
+      name: 'Sir Hardaker', avatar: 'H', model: MODELS.premium,
+      system: () => `You are Sir Hardaker, the headmaster — a commanding, dryly witty, all-knowing figure who combines Dobby's sharp challenging questions, Mr Slade's critical rigour, and Professor Russell's warmth and explanatory gift, plus your own calm humour. You have access to the whole book conceptually, but in this build only the chapter currently open is provided below. Challenge the user from multiple angles to make sure their understanding is solid and well-connected, but you are never cruel — you clearly respect a good answer when you get one. Keep replies to 2-4 sentences.\n\n${chLabel(currentChapter.chapter_num)} TEXT:\n${chapterFullText()}`
+    }
   },
-  slade: {
-    name: 'Mr Slade', avatar: 'S', model: MODELS.standard,
-    system: () => `You are Mr Slade, a brisk, exacting, no-nonsense British schoolteacher who is kind underneath but expresses it through high expectations rather than softness. You are chatting with the user about ${chLabel(currentChapter.chapter_num)} ("${currentChapter.title}" by ${currentChapter.author}), and separately you set and mark exams on it (handled elsewhere). In chat, keep replies short, direct, occasionally dryly witty. Stay within the chapter's content.\n\nCHAPTER TEXT:\n${chapterFullText()}`
-  },
-  dobby: {
-    name: 'Dobby', avatar: 'D', model: MODELS.standard,
-    system: () => `You are Dobby, a pupil who performs innocence and mild stupidity ("oh, sorry, probably a silly question, but...") while actually being extremely sharp — you use this fake-humble questioning style to relentlessly probe the user's understanding of ${chLabel(currentChapter.chapter_num)} ("${currentChapter.title}" by ${currentChapter.author}) until you find a real gap in their reasoning or they successfully defend their position. You do NOT correct or teach — you only ask sharper and sharper follow-up questions that expose contradictions or unexamined assumptions in what the user just said. If the user seems genuinely stuck (says so explicitly), soften briefly and offer a small nudge, then return to questioning. Keep each reply to 1-3 sentences, in character, never breaking the innocent facade.\n\nCHAPTER TEXT:\n${chapterFullText()}`
-  },
-  jed: {
-    name: 'Jed', avatar: 'J', model: MODELS.standard,
-    system: (source) => `You are Jed, an outgoing, casual, opinionated "mate" studying alongside the user — not a teacher, a peer. You debate ${chLabel(currentChapter.chapter_num)} ("${currentChapter.title}" by ${currentChapter.author}) with genuine, sometimes contrarian opinions, bring up real-world tangents, and keep things conversational and informal ("oi", "fair", "change my mind"). ${source === 'world' ? 'You have web search available — use it to bring in a real current article, news item, or discussion to argue from, and mention roughly what you found.' : 'Keep this discussion grounded in the chapter itself, not outside sources.'} Keep replies short and punchy, 2-4 sentences.\n\nCHAPTER TEXT:\n${chapterFullText()}`
-  },
-  hardaker: {
-    name: 'Sir Hardaker', avatar: 'H', model: MODELS.premium,
-    system: () => `You are Sir Hardaker, the headmaster — a commanding, dryly witty, all-knowing figure who combines Dobby's sharp challenging questions, Mr Slade's critical rigour, and Professor Russell's warmth and explanatory gift, plus your own calm humour. You have access to the whole book conceptually, but in this build only the chapter currently open is provided below. Challenge the user from multiple angles to make sure their understanding is solid and well-connected, but you are never cruel — you clearly respect a good answer when you get one. Keep replies to 2-4 sentences.\n\n${chLabel(currentChapter.chapter_num)} TEXT:\n${chapterFullText()}`
+  zh: {
+    russell: {
+      name: '林教授', avatar: '林', model: MODELS.standard,
+      system: () => `你是林教授，一位温和儒雅、学识渊博的老派教授，正在陪读者一段一段地读《${currentChapter.title}》（${currentChapter.author}）——也就是${chLabel(currentChapter.chapter_num)}。你说话不紧不慢，喜欢引经据典，但从不拖堂说教；你会由衷地欣赏读者真正有见地的想法，而不是空泛地夸奖。多用启发性的追问，少用单向灌输。下面只是读者目前通过阅读器实际读到的部分——严格只谈这些内容，除非读者明确提到还没读到的地方，这时你可以温和地指出，建议他们先读到那里再聊。回复通常保持在2-4句话，像聊天一样自然，不要用条列式。\n\n目前读到的内容：\n${scopedChapterText()}`
+    },
+    slade: {
+      name: '李老师', avatar: '李', model: MODELS.standard,
+      system: () => `你是李老师，一位干脆利落、要求严格的应试老师——骨子里是关心学生的，但这份关心表现为高标准，而不是温言软语。你在跟读者闲聊《${currentChapter.title}》（${currentChapter.author}），也就是${chLabel(currentChapter.chapter_num)}；出题和批卷是另外的功能，这里只是聊天。说话简短直接，偶尔带点冷幽默。内容严格限定在本章范围内。\n\n本章原文：\n${chapterFullText()}`
+    },
+    dobby: {
+      name: '小满', avatar: '满', model: MODELS.standard,
+      system: () => `你是小满，一个看起来天真无害、说话总带点"啊……不好意思，可能是我问得比较傻"这种语气的学弟，实际上极其敏锐——你用这种装傻的提问方式，不断追问读者对《${currentChapter.title}》（${currentChapter.author}），也就是${chLabel(currentChapter.chapter_num)}的理解，直到你真正问出对方逻辑里的漏洞，或者对方成功说服了你。下面只是读者目前实际读到的部分——只问这些内容，不要假设对方已经知道后面还没读到的部分。你绝不直接纠正或讲解——你只负责一层层追问，把对方话里没自圆其说的地方、没经过推敲的预设揪出来。如果读者明确表示自己卡住了、答不上来，你可以稍微软化语气给点小提示，然后继续追问。每次回复保持1-3句话，不要跳出这个装傻的人设。\n\n目前读到的内容：\n${scopedChapterText()}`
+    },
+    jed: {
+      name: '阿徽', avatar: '徽', model: MODELS.standard,
+      system: (source) => `你是阿徽，读者的同学——嘴贱、爱抬杠、有主见，说话随性、不正经，不是老师，是平辈。你会就《${currentChapter.title}》（${currentChapter.author}），也就是${chLabel(currentChapter.chapter_num)}跟读者辩论，观点真实、有时故意唱反调，还会扯点课本外的现实例子，语气很日常（"诶不是吧""行吧算你说得有点道理""来啊说服我啊"这种）。下面只是读者目前实际读到的部分——"课本这边"的论点就基于这些，不要扯到读者还没读到的章节内容。${source === 'world' ? '你可以用网络搜索——找一篇真实的当下文章、新闻或讨论来当你的论据，并大致提一下你查到了什么。' : '这次讨论只围绕已读内容，不要引用课本外的来源。'} 回复要短、有冲击力，2-4句话。\n\n目前读到的内容：\n${scopedChapterText()}`
+    },
+    hardaker: {
+      name: '吴校长', avatar: '吴', model: MODELS.premium,
+      system: () => `你是吴校长——一位说话带命令语气、擅长冷幽默、无所不知的人物，兼具小满的犀利追问、李老师的严格挑剔，以及林教授的温厚博学，还有你自己独有的从容幽默。你在概念上掌握全书内容，但这次对话只提供了当前打开的这一章原文（见下方）。从多个角度挑战读者，确保他们的理解是扎实且融会贯通的，但你从不刻薄——遇到真正好的回答，你会明确表示认可。回复保持2-4句话。\n\n${chLabel(currentChapter.chapter_num)}原文：\n${chapterFullText()}`
+    }
   }
 };
 
 /* =========================================================================
    STATE
    ========================================================================= */
+let LOCALE = 'en'; // 'en' | 'zh' — which hall the user is currently in
+function tbl(name){ return name + (LOCALE === 'zh' ? '_zh' : ''); }
+function CH(){ return CHARACTERS[LOCALE]; }
+
 const conversations = { russell: [], slade: [], dobby: [], jed: [], hardaker: [] };
 let currentRole = 'russell';
 let jedSource = 'book';
@@ -988,16 +1077,16 @@ let stats = { passages: 0, papers: 0, chats: 0 };
 async function bumpActivity(field){
   try{
     const today = new Date().toISOString().slice(0,10);
-    const rows = await sbGet('daily_activity', `user_id=eq.${SB_USER}&activity_date=eq.${today}&select=passages_read_count,papers_taken_count,exchanges_count`);
+    const rows = await sbGet(tbl('daily_activity'), `user_id=eq.${SB_USER}&activity_date=eq.${today}&select=passages_read_count,papers_taken_count,exchanges_count`);
     const cur = rows[0] || { passages_read_count:0, papers_taken_count:0, exchanges_count:0 };
     cur[field] = (cur[field] || 0) + 1;
-    await sbUpsert('daily_activity', Object.assign({ user_id:SB_USER, activity_date:today }, cur), 'user_id,activity_date');
+    await sbUpsert(tbl('daily_activity'), Object.assign({ user_id:SB_USER, activity_date:today }, cur), 'user_id,activity_date');
   }catch(e){ console.warn('Could not log activity:', e.message); }
   refreshStats();
 }
 async function refreshStats(){
   try{
-    const rows = await sbGet('daily_activity', `user_id=eq.${SB_USER}&select=passages_read_count,papers_taken_count,exchanges_count`);
+    const rows = await sbGet(tbl('daily_activity'), `user_id=eq.${SB_USER}&select=passages_read_count,papers_taken_count,exchanges_count`);
     stats.passages = rows.reduce((s,r) => s + r.passages_read_count, 0);
     stats.papers = rows.reduce((s,r) => s + r.papers_taken_count, 0);
     stats.chats = rows.reduce((s,r) => s + r.exchanges_count, 0);
@@ -1053,10 +1142,10 @@ function renderShelf(){
 }
 async function loadBooks(){
   try{
-    BOOKS = await sbGet('books', `uploaded_by=eq.${SB_USER}&order=created_at.asc&select=id,slug,title,author,total_chapters`);
+    BOOKS = await sbGet(tbl('books'), `uploaded_by=eq.${SB_USER}&order=created_at.asc&select=id,slug,title,author,total_chapters`);
   }catch(e){ console.warn('Could not load books:', e.message); BOOKS = []; }
   try{
-    const doneRows = await sbGet('chapter_status', `user_id=eq.${SB_USER}&status=eq.complete&select=book_id`);
+    const doneRows = await sbGet(tbl('chapter_status'), `user_id=eq.${SB_USER}&status=eq.complete&select=book_id`);
     const doneCounts = {};
     doneRows.forEach(r => { doneCounts[r.book_id] = (doneCounts[r.book_id]||0) + 1; });
     BOOKS.forEach(b => { b.chaptersRead = doneCounts[b.id] || 0; b.progress = b.total_chapters ? b.chaptersRead / b.total_chapters : 0; });
@@ -1087,13 +1176,16 @@ async function enterBook(book){
 }
 async function deleteCurrentBook(){
   if(!currentBook) return;
-  if(!confirm(`Remove "${currentBook.title}" from your shelf? This deletes all its chapters and cannot be undone.`)) return;
+  const confirmMsg = LOCALE === 'zh'
+    ? `确定要把《${currentBook.title}》从书架上移除吗？这会删除它所有的章节，且无法恢复。`
+    : `Remove "${currentBook.title}" from your shelf? This deletes all its chapters and cannot be undone.`;
+  if(!confirm(confirmMsg)) return;
   try{
-    await fetch(`${SUPABASE_URL}/rest/v1/books?id=eq.${currentBook.id}`, { method:'DELETE', headers: sbHeaders() });
+    await fetch(`${SUPABASE_URL}/rest/v1/${tbl('books')}?id=eq.${currentBook.id}`, { method:'DELETE', headers: sbHeaders() });
     closeSheet('book-panel-overlay');
     currentBook = null;
     loadBooks();
-  }catch(e){ alert('Could not remove that book: ' + e.message); }
+  }catch(e){ alert((LOCALE === 'zh' ? '无法移除这本书：' : 'Could not remove that book: ') + e.message); }
 }
 document.getElementById('panel-close').addEventListener('click', () => closeSheet('book-panel-overlay'));
 document.getElementById('lobby-search').addEventListener('input', (e) => {
@@ -1112,16 +1204,23 @@ let CHAPTERS = [];
 const STATUS_LABEL = { unread:"Unread", reading:"In Progress", complete:"Read" };
 const chapterListEl = document.getElementById('chapter-list');
 let pct = 0, doneCount = 0;
-const TITLES = [
-  {max:10, label:"A Bit Lost, Frankly"}, {max:25, label:"Still Finding the Chapters"},
-  {max:45, label:"Getting Somewhere"}, {max:65, label:"Rather Well Read"},
-  {max:85, label:"Nearly Fluent"}, {max:101,label:"Thoroughly Versed"},
-];
+const TITLES = {
+  en: [
+    {max:10, label:"A Bit Lost, Frankly"}, {max:25, label:"Still Finding the Chapters"},
+    {max:45, label:"Getting Somewhere"}, {max:65, label:"Rather Well Read"},
+    {max:85, label:"Nearly Fluent"}, {max:101,label:"Thoroughly Versed"},
+  ],
+  zh: [
+    {max:10, label:"没搞懂"}, {max:25, label:"略有耳闻"},
+    {max:45, label:"有点儿东西"}, {max:65, label:"见解独到"},
+    {max:85, label:"滚瓜烂熟"}, {max:101,label:"拜见懂王"},
+  ]
+};
 
 async function loadChaptersForBook(bookId){
-  chapterListEl.innerHTML = '<div class="sheet-loading">Loading chapters…</div>';
+  chapterListEl.innerHTML = `<div class="sheet-loading">${LOCALE === 'zh' ? '正在加载章节…' : 'Loading chapters…'}</div>`;
   try{
-    const rows = await sbGet('chapters', `book_id=eq.${bookId}&order=chapter_num.asc&select=chapter_num,title,author,printed_page_start,printed_page_end`);
+    const rows = await sbGet(tbl('chapters'), `book_id=eq.${bookId}&order=chapter_num.asc&select=chapter_num,title,author,printed_page_start,printed_page_end`);
     CHAPTERS = rows.map(r => ({
       n: r.chapter_num, title: r.title, author: r.author,
       pages: (r.printed_page_start && r.printed_page_end) ? `${r.printed_page_start}–${r.printed_page_end}` : '—',
@@ -1158,7 +1257,7 @@ function refreshProgressUI(){
   pct = Math.round((doneCount/total)*100);
   document.getElementById('progress-pct-label').textContent = pct + '%';
   document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('reader-title-badge').textContent = (TITLES.find(t => pct < t.max) || TITLES[TITLES.length-1]).label;
+  document.getElementById('reader-title-badge').textContent = (TITLES[LOCALE].find(t => pct < t.max) || TITLES[LOCALE][TITLES[LOCALE].length-1]).label;
 }
 
 let CHAPTER_STATUS = {}; // chapter_num -> status, from Supabase (source of truth once loaded)
@@ -1166,7 +1265,7 @@ async function loadChapterStatuses(){
   if(!currentBook) return;
   CHAPTER_STATUS = {};
   try{
-    const rows = await sbGet('chapter_status', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&select=chapter_num,status`);
+    const rows = await sbGet(tbl('chapter_status'), `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&select=chapter_num,status`);
     rows.forEach(r => CHAPTER_STATUS[r.chapter_num] = r.status);
     CHAPTERS.forEach(ch => { ch.status = CHAPTER_STATUS[ch.n] || 'unread'; });
     renderChapterListRows();
@@ -1176,7 +1275,7 @@ async function loadChapterStatuses(){
 async function markChapterStatus(n, status){
   if(status === 'reading' && CHAPTER_STATUS[n] === 'complete') return; // never downgrade
   try{
-    await sbUpsert('chapter_status', { user_id:SB_USER, book_id:currentBook.id, chapter_num:n, status, updated_at:new Date().toISOString() }, 'user_id,book_id,chapter_num');
+    await sbUpsert(tbl('chapter_status'), { user_id:SB_USER, book_id:currentBook.id, chapter_num:n, status, updated_at:new Date().toISOString() }, 'user_id,book_id,chapter_num');
     CHAPTER_STATUS[n] = status;
     const ch = CHAPTERS.find(c => c.n === n); if(ch) ch.status = status;
     renderChapterListRows();
@@ -1189,7 +1288,7 @@ async function markChapterStatus(n, status){
 /* ---- reader identity (name / pronoun), saved per book -------------- */
 async function loadUserProgress(){
   try{
-    const rows = await sbGet('user_book_progress', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&select=reader_name,reader_pronoun`);
+    const rows = await sbGet(tbl('user_book_progress'), `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&select=reader_name,reader_pronoun`);
     if(rows[0]){
       document.getElementById('reader-name').value = rows[0].reader_name || '';
       document.getElementById('reader-gender').value = rows[0].reader_pronoun || 'neutral';
@@ -1200,7 +1299,7 @@ let identitySaveTimer = null;
 function saveIdentitySoon(){
   clearTimeout(identitySaveTimer);
   identitySaveTimer = setTimeout(() => {
-    sbUpsert('user_book_progress', {
+    sbUpsert(tbl('user_book_progress'), {
       user_id: SB_USER, book_id: currentBook.id,
       reader_name: document.getElementById('reader-name').value.trim(),
       reader_pronoun: document.getElementById('reader-gender').value,
@@ -1228,12 +1327,12 @@ async function openChapter(n, row){
     await Promise.all([ loadPassagesRead(), loadSavedWords() ]);
     renderSavedWords();
     markChapterStatus(n, 'reading'); // fire-and-forget
-    sbUpsert('user_book_progress', { user_id:SB_USER, book_id:currentBook.id, current_chapter:n, updated_at:new Date().toISOString() }, 'user_id,book_id')
+    sbUpsert(tbl('user_book_progress'), { user_id:SB_USER, book_id:currentBook.id, current_chapter:n, updated_at:new Date().toISOString() }, 'user_id,book_id')
       .catch(e => console.warn('Could not update current chapter:', e.message));
     showView('chat-view');
     switchRole('russell');
   }catch(err){
-    alert("Couldn't load that chapter from the library — " + err.message + ". Check your connection and try again.");
+    alert((LOCALE === 'zh' ? '没能打开这一章——' : "Couldn't load that chapter from the library — ") + err.message + (LOCALE === 'zh' ? '。请检查网络后重试。' : '. Check your connection and try again.'));
   }finally{
     row.classList.remove('loading');
     if(arrow) arrow.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>';
@@ -1246,7 +1345,7 @@ async function openChapter(n, row){
 function renderChat(role){
   const chatEl = document.getElementById('chat');
   chatEl.innerHTML = '';
-  const char = CHARACTERS[role];
+  const char = CH()[role];
   conversations[role].forEach(m => {
     const row = document.createElement('div');
     row.className = `msg-row ${m.role === 'user' ? 'from-user' : 'from-ai'}`;
@@ -1273,7 +1372,7 @@ async function switchRole(role){
   }
   // still nothing (brand new, or Supabase unreachable): seed and persist an opening line
   if(conversations[role].length === 0){
-    const opening = OPENING_LINES[role]();
+    const opening = OPENING_LINES[LOCALE][role]();
     conversations[role].push({ role:'assistant', content: opening });
     saveMessage(role, 'assistant', opening); // fire-and-forget
   }
@@ -1283,24 +1382,150 @@ async function switchRole(role){
 
 async function loadConversation(role){
   try{
-    const rows = await sbGet('conversations', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&character_role=eq.${role}&order=created_at.asc&select=message_role,content`);
+    const rows = await sbGet(tbl('conversations'), `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&character_role=eq.${role}&order=created_at.asc&select=message_role,content`);
     conversations[role] = rows.map(r => ({ role: r.message_role, content: r.content }));
   }catch(e){ console.warn('Could not load conversation history:', e.message); }
 }
 function saveMessage(role, messageRole, content){
-  sbInsert('conversations', {
+  sbInsert(tbl('conversations'), {
     user_id: SB_USER, book_id: currentBook.id, chapter_num: currentChapter.chapter_num,
     character_role: role, message_role: messageRole, content
   }).catch(e => console.warn('Could not save message:', e.message));
 }
 
 const OPENING_LINES = {
-  russell: () => `Ah, there you are. ${chLabel(currentChapter.chapter_num)} — "${currentChapter.title}." Shall we read the first passage together, or would you rather I set the scene first?`,
-  slade: () => `${chLabel(currentChapter.chapter_num)}. I trust you've actually read it this time. When you're ready, set yourself a paper.`,
-  dobby: () => `Oh — sorry, probably a silly question. But you did read this chapter properly, right? Because I've got a question about it...`,
-  jed: () => `Oi — so I was reading this and honestly? I've got opinions. Change my mind.`,
-  hardaker: () => `You've made it to ${chLabel(currentChapter.chapter_num)}. Modest praise, but praise nonetheless. Let's see how well it's actually gone in.`
+  en: {
+    russell: () => `Ah, there you are. ${chLabel(currentChapter.chapter_num)} — "${currentChapter.title}." Shall we read the first passage together, or would you rather I set the scene first?`,
+    slade: () => `${chLabel(currentChapter.chapter_num)}. I trust you've actually read it this time. When you're ready, set yourself a paper.`,
+    dobby: () => `Oh — sorry, probably a silly question. But you did read this chapter properly, right? Because I've got a question about it...`,
+    jed: () => `Oi — so I was reading this and honestly? I've got opinions. Change my mind.`,
+    hardaker: () => `You've made it to ${chLabel(currentChapter.chapter_num)}. Modest praise, but praise nonetheless. Let's see how well it's actually gone in.`
+  },
+  zh: {
+    russell: () => `啊，你来了。${chLabel(currentChapter.chapter_num)}——《${currentChapter.title}》。我们是一起先读第一段，还是我先给你铺垫一下背景？`,
+    slade: () => `${chLabel(currentChapter.chapter_num)}。希望你这次是真读了。准备好了就自己去出一张卷子。`,
+    dobby: () => `啊……不好意思，可能是个傻问题。不过这一章你真的认真读了吗？我有个问题想问你……`,
+    jed: () => `诶——我刚看了这章，说实话？我有点想法，来啊说服我啊。`,
+    hardaker: () => `你走到${chLabel(currentChapter.chapter_num)}了。算是个小小的表扬吧。让本座来看看你到底学进去了多少。`
+  }
 };
+
+const ROLE_TAB_LABELS = {
+  en: { russell:['R','Professor'], slade:['S','Teacher'], dobby:['D','Dobby'], jed:['J','Jed'], hardaker:['H','Headmaster'] },
+  zh: { russell:['林','林教授'], slade:['李','李老师'], dobby:['满','小满'], jed:['徽','阿徽'], hardaker:['吴','吴校长'] }
+};
+function applyRoleTabLabels(){
+  Object.keys(ROLE_TAB_LABELS[LOCALE]).forEach(role => {
+    const [avatar, label] = ROLE_TAB_LABELS[LOCALE][role];
+    document.getElementById(`tab-avatar-${role}`).textContent = avatar;
+    document.getElementById(`tab-label-${role}`).textContent = label;
+  });
+}
+
+/* =========================================================================
+   LOCALE SWITCHING — "The Study" (English hall) vs "书城" (Chinese hall)
+   ========================================================================= */
+const UI_STRINGS = {
+  en: {
+    hallEyebrow: 'Private Study', hallTitle: 'The <em>Study</em>', hallSub: 'a quiet place to keep your books',
+    localeBtn: '中文书城 →', shelfLabel: 'Currently Reading', searchPlaceholder: 'Search titles, authors…',
+    navLobby: 'Library', navStore: 'Store', navMatron: 'Matron',
+    matronEyebrow: "Matron's Office", matronTitle: 'Progress &amp; Discipline', matronQuip: '"Let\'s see how you\'ve been getting on, then."',
+    storeEyebrow: 'The Store', storeTitle: 'Add a Book', storeQuip: 'Upload a text-based PDF and the Librarian will read it for you.',
+    composerPlaceholder: 'Say something…',
+    statusUnread: 'Unread', statusReading: 'In Progress', statusComplete: 'Read',
+    storeHint: "Works best with proper text-based PDFs (the kind where you can select and copy text in a normal PDF reader). Scanned or photographed pages won't work — there's no text layer for the Librarian to read.",
+    storeChooseFile: 'Choose a PDF…', storeAnalyzeBtn: 'Analyze PDF', storeRetryBtn: 'Try a Different File',
+    storeTitleLabel: 'Title', storeAuthorLabel: 'Author',
+    storeReviewHint: "The Librarian's best guess at the chapter breaks — check these against the actual PDF page numbers (shown in your PDF viewer) and adjust anything that's off before saving. Leave the small author field under each chapter blank unless that specific chapter was written by someone different from the book's overall author.",
+    storeAddRowBtn: '+ Add a chapter', storeSaveBtn: 'Save to My Shelf', storeCancelBtn: 'Cancel',
+    settingsEyebrow: 'Configuration', settingsTitle: 'Account',
+    settingsHint: "The Study runs on a shared Anthropic key kept privately on the server — there's nothing for you to configure here beyond your account.",
+    settingsLangLabel: 'Language', signOut: 'Sign Out',
+    attachTitle: 'Your Paper', attachHint: "Upload your own essay or paper (text-based PDF, up to 25 pages) and any of the characters can read and discuss it with you alongside the chapter.",
+    attachChooseFile: 'Choose a PDF…', attachBtn: 'Attach to This Conversation', attachRemove: 'Remove attached paper',
+    attachedAs: 'Attached: ',
+  },
+  zh: {
+    hallEyebrow: '私人书房', hallTitle: '<em>书</em>城', hallSub: '一个安静存放你的书的地方',
+    localeBtn: '← English Library', shelfLabel: '正在阅读', searchPlaceholder: '搜索书名、作者…',
+    navLobby: '书架', navStore: '书城', navMatron: '宿管',
+    matronEyebrow: '宿管的办公室', matronTitle: '进度与督促', matronQuip: '"来，看看你最近学得怎么样。"',
+    storeEyebrow: '新书上架', storeTitle: '添加一本书', storeQuip: '上传一份文字版PDF，书店大爷会帮你读。',
+    composerPlaceholder: '说点什么…',
+    statusUnread: '未读', statusReading: '在读', statusComplete: '已读',
+    storeHint: '文字版PDF效果最好（就是那种在普通PDF阅读器里能选中、能复制文字的）。扫描版或者拍照版不行——没有文字层，书店大爷读不了。',
+    storeChooseFile: '选择一个PDF…', storeAnalyzeBtn: '开始分析', storeRetryBtn: '换一个文件试试',
+    storeTitleLabel: '书名', storeAuthorLabel: '作者',
+    storeReviewHint: '这是书店大爷猜的章节分法——对照PDF阅读器里显示的实际页码检查一下，有不对的地方保存前调整好。每章下面那个小小的作者框，除非这一章真的是别人写的，不然留空就好。',
+    storeAddRowBtn: '+ 添加一章', storeSaveBtn: '存入我的书架', storeCancelBtn: '取消',
+    settingsEyebrow: '设置', settingsTitle: '账户',
+    settingsHint: '书城用的是服务器上私下保管的共享密钥——除了账户信息，没有别的需要你来配置。',
+    settingsLangLabel: '语言', signOut: '退出登录',
+    attachTitle: '你的论文', attachHint: '上传你自己写的论文或文章（文字版PDF，限25页以内），任何一位角色都可以读它，跟你一起讨论。',
+    attachChooseFile: '选择一个PDF…', attachBtn: '附加到本次对话', attachRemove: '移除已附加的论文',
+    attachedAs: '已附加：',
+  }
+};
+function applyUIStrings(){
+  const s = UI_STRINGS[LOCALE];
+  document.getElementById('hall-eyebrow').textContent = s.hallEyebrow;
+  document.getElementById('hall-title').innerHTML = s.hallTitle;
+  document.getElementById('hall-sub').textContent = s.hallSub;
+  document.getElementById('locale-toggle-en').classList.toggle('active', LOCALE === 'en');
+  document.getElementById('locale-toggle-zh').classList.toggle('active', LOCALE === 'zh');
+  document.getElementById('locale-toggle-thumb').classList.toggle('zh', LOCALE === 'zh');
+  document.getElementById('shelf-label').textContent = s.shelfLabel;
+  document.getElementById('lobby-search').placeholder = s.searchPlaceholder;
+  document.getElementById('nav-label-lobby').textContent = s.navLobby;
+  document.getElementById('nav-label-store').textContent = s.navStore;
+  document.getElementById('nav-label-matron').textContent = s.navMatron;
+  document.getElementById('matron-eyebrow').textContent = s.matronEyebrow;
+  document.getElementById('matron-title').innerHTML = s.matronTitle;
+  document.getElementById('matron-quip').innerHTML = s.matronQuip;
+  document.getElementById('store-eyebrow').textContent = s.storeEyebrow;
+  document.getElementById('store-title').textContent = s.storeTitle;
+  document.getElementById('store-quip').textContent = s.storeQuip;
+  document.getElementById('store-hint').textContent = s.storeHint;
+  if(!storeFileInput.files[0]) document.getElementById('store-file-name').textContent = s.storeChooseFile;
+  document.getElementById('store-analyze-btn').textContent = s.storeAnalyzeBtn;
+  document.getElementById('store-retry-btn').textContent = s.storeRetryBtn;
+  document.getElementById('store-title-label').textContent = s.storeTitleLabel;
+  document.getElementById('store-author-label').textContent = s.storeAuthorLabel;
+  document.getElementById('store-review-hint').textContent = s.storeReviewHint;
+  document.getElementById('store-add-row-btn').textContent = s.storeAddRowBtn;
+  document.getElementById('store-save-btn').textContent = s.storeSaveBtn;
+  document.getElementById('store-cancel-btn').textContent = s.storeCancelBtn;
+  document.getElementById('composer-input').placeholder = s.composerPlaceholder;
+  STATUS_LABEL.unread = s.statusUnread; STATUS_LABEL.reading = s.statusReading; STATUS_LABEL.complete = s.statusComplete;
+  document.getElementById('settings-eyebrow').textContent = s.settingsEyebrow;
+  document.getElementById('settings-title').textContent = s.settingsTitle;
+  document.getElementById('settings-hint').textContent = s.settingsHint;
+  document.getElementById('settings-lang-label').textContent = s.settingsLangLabel;
+  document.getElementById('signout-link').textContent = s.signOut;
+  document.getElementById('attach-title').textContent = s.attachTitle;
+  document.getElementById('attach-hint').textContent = s.attachHint;
+  document.getElementById('attach-btn').textContent = s.attachBtn;
+  if(!attachFileInput.files[0] && !uploadedPaperText) document.getElementById('attach-file-name').textContent = s.attachChooseFile;
+  applyRoleTabLabels();
+}
+
+async function setLocale(locale){
+  if(locale === LOCALE) return;
+  LOCALE = locale;
+  applyUIStrings();
+  // switching halls means switching libraries entirely — clear anything tied to the old one
+  currentBook = null;
+  currentChapter = null;
+  BOOKS = [];
+  CHAPTERS = [];
+  Object.keys(conversations).forEach(r => conversations[r] = []);
+  passagesRead = [];
+  savedWords = [];
+  showView('lobby-view');
+  await loadBooks();
+  refreshStats();
+}
 
 function renderRoleChrome(role){
   const subbar = document.getElementById('role-subbar');
@@ -1328,6 +1553,12 @@ function renderRoleChrome(role){
       <div class="float-btn" style="bottom:158px;" title="Reference" onclick="openReference()"><svg viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 012-2h13v16H6a2 2 0 000 4h13"/></svg></div>
       <div class="float-btn" style="bottom:206px;" title="Report Card" onclick="openReportCard()"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>`;
   }
+  // Available for every character, regardless of role — "discuss my own paper"
+  floatBtns.innerHTML += `<div class="float-btn ${uploadedPaperText ? 'accent' : ''}" style="bottom:350px;" title="${LOCALE === 'zh' ? '上传你的论文' : 'Attach Your Paper'}" onclick="openAttachSheet()"><svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95L10.5 17.6a2 2 0 01-2.83-2.83l8.49-8.48"/></svg></div>`;
+}
+function openAttachSheet(){
+  openSheet('attach-overlay');
+  if(uploadedPaperText) renderAttachedState();
 }
 function setJedSource(s){ jedSource = s; renderRoleChrome('jed'); }
 
@@ -1348,8 +1579,8 @@ async function sendMessage(){
   const sendBtn = document.getElementById('send-btn');
   sendBtn.disabled = true;
   try{
-    const char = CHARACTERS[currentRole];
-    const system = currentRole === 'jed' ? char.system(jedSource) : char.system();
+    const char = CH()[currentRole];
+    const system = withAttachedPaper(currentRole === 'jed' ? char.system(jedSource) : char.system());
     const apiMessages = conversations[currentRole]
       .filter(m => !m.thinking)
       .map(m => ({ role: m.role, content: m.content }));
@@ -1389,7 +1620,7 @@ function openReader(){
   }
 }
 function showPassage(p, index){
-  document.getElementById('reader-eyebrow').textContent = `${chLabel(currentChapter.chapter_num)} · Passage ${index}`;
+  document.getElementById('reader-eyebrow').textContent = `${chLabel(currentChapter.chapter_num)} · ${LOCALE === 'zh' ? '第' + index + '段' : 'Passage ' + index}`;
   document.getElementById('reader-heading').textContent = p.heading;
   document.getElementById('reader-body').textContent = p.body;
   document.getElementById('reader-page-num').textContent = `p. ${p.page}`;
@@ -1397,33 +1628,48 @@ function showPassage(p, index){
 
 async function loadPassagesRead(){
   try{
-    const rows = await sbGet('passages_read', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&order=read_at.asc&select=heading,body,printed_page`);
+    const rows = await sbGet(tbl('passages_read'), `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&order=read_at.asc&select=heading,body,printed_page`);
     passagesRead = rows.map(r => ({ heading:r.heading, body:r.body, page:r.printed_page }));
   }catch(e){ console.warn('Could not load passage history:', e.message); passagesRead = []; }
 }
 
+let readerBusy = false;
 async function readNextPassage(){
-  document.getElementById('reader-body').textContent = 'Loading…';
+  if(readerBusy) return; // ignore rapid repeat taps on "Next" while one is already loading
+  readerBusy = true;
+  const nextBtn = document.getElementById('reader-next-btn');
+  nextBtn.style.opacity = '.4'; nextBtn.style.pointerEvents = 'none';
+  document.getElementById('reader-eyebrow').textContent = `${chLabel(currentChapter.chapter_num)} · ${LOCALE === 'zh' ? '第' + (passagesRead.length + 1) + '段' : 'Passage ' + (passagesRead.length + 1)}`;
+  document.getElementById('reader-body').textContent = LOCALE === 'zh' ? '加载中…' : 'Loading…';
   document.getElementById('reader-heading').textContent = '—';
   try{
     const alreadyRead = passagesRead.map(p => `"${p.heading}"`).join(', ') || 'none yet';
-    const system = `You extract short reading passages (100-300 words) from a book chapter for a "read one bite-sized passage at a time" feature. Pick the next logical passage that has NOT already been covered, following the chapter's natural order and knowledge/logic boundaries. Passages already read: ${alreadyRead}. Respond with ONLY valid JSON, no markdown, no commentary, in this exact shape: {"heading": "short evocative title for this passage", "body": "the passage text, near-verbatim from the source, 100-300 words", "page": "the printed page number this text is drawn from"}. If the whole chapter has been covered, respond with {"done": true}.\n\nCHAPTER TEXT:\n${chapterFullText()}`;
-    const reply = await callClaude({ model: MODELS.standard, system, messages:[{role:'user', content:'Give me the next passage.'}], maxTokens: 600 });
+    // Split into a stable, cacheable block (instructions + full chapter text,
+    // identical on every "Next" click) and a small dynamic block (the
+    // already-read list, which grows every time) — so repeated clicks
+    // through the same chapter hit the cache on the big part.
+    const stableBlock = `You extract short reading passages (100-300 words) from a book chapter for a "read one bite-sized passage at a time" feature. Pick the next logical passage that has NOT already been covered, following the chapter's natural order and knowledge/logic boundaries. ${LOCALE === 'zh' ? 'This chapter is in Chinese — write the heading and body in Chinese too.' : ''} Respond with ONLY valid JSON, no markdown, no commentary, in this exact shape: {"heading": "short evocative title for this passage", "body": "the passage text, near-verbatim from the source, 100-300 words", "page": "the printed page number this text is drawn from"}. If the whole chapter has been covered, respond with {"done": true}.\n\nCHAPTER TEXT:\n${chapterFullText()}`;
+    const dynamicBlock = `Passages already read: ${alreadyRead}.`;
+    const system = [
+      { type:'text', text: stableBlock, cache_control: { type:'ephemeral' } },
+      { type:'text', text: dynamicBlock }
+    ];
+    const reply = await callClaude({ model: MODELS.standard, system, messages:[{role:'user', content:'Give me the next passage.'}], maxTokens: 1200 });
     const parsed = extractJson(reply);
     if(parsed.done){
-      document.getElementById('reader-heading').textContent = "That's the whole chapter";
-      document.getElementById('reader-body').textContent = "You've read every passage Professor Russell has for this chapter. Well done — perhaps it's time for Mr Slade's paper.";
+      document.getElementById('reader-heading').textContent = LOCALE === 'zh' ? '这一章读完了' : "That's the whole chapter";
+      document.getElementById('reader-body').textContent = LOCALE === 'zh' ? '林教授手上这一章的段落都读完了。做得好——或许该去找李老师做一套卷子了。' : "You've read every passage Professor Russell has for this chapter. Well done — perhaps it's time for Mr Slade's paper.";
       document.getElementById('reader-page-num').textContent = '';
       markChapterStatus(currentChapter.chapter_num, 'complete');
       return;
     }
     passagesRead.push(parsed);
     bumpActivity('passages_read_count');
-    sbInsert('passages_read', {
+    sbInsert(tbl('passages_read'), {
       user_id: SB_USER, book_id: currentBook.id, chapter_num: currentChapter.chapter_num,
       heading: parsed.heading, body: parsed.body, printed_page: String(parsed.page)
     }).catch(e => console.warn('Could not save passage:', e.message));
-    document.getElementById('reader-eyebrow').textContent = `${chLabel(currentChapter.chapter_num)} · Passage ${passagesRead.length}`;
+    document.getElementById('reader-eyebrow').textContent = `${chLabel(currentChapter.chapter_num)} · ${LOCALE === 'zh' ? '第' + passagesRead.length + '段' : 'Passage ' + passagesRead.length}`;
     document.getElementById('reader-heading').textContent = parsed.heading;
     document.getElementById('reader-body').textContent = parsed.body;
     document.getElementById('reader-page-num').textContent = `p. ${parsed.page}`;
@@ -1431,8 +1677,11 @@ async function readNextPassage(){
     conversations.russell.push({ role:'user', content: passageNote });
     saveMessage('russell', 'user', passageNote);
   } catch(err){
-    document.getElementById('reader-heading').textContent = 'Something went wrong';
+    document.getElementById('reader-heading').textContent = LOCALE === 'zh' ? '出错了' : 'Something went wrong';
     document.getElementById('reader-body').textContent = err.message;
+  } finally{
+    readerBusy = false;
+    nextBtn.style.opacity = ''; nextBtn.style.pointerEvents = '';
   }
 }
 
@@ -1453,13 +1702,13 @@ async function doDictSearch(){
 }
 function saveWord(word, def){
   savedWords.unshift({word, def});
-  sbInsert('saved_words', { user_id:SB_USER, book_id:currentBook.id, chapter_num:currentChapter.chapter_num, word, definition:def })
+  sbInsert(tbl('saved_words'), { user_id:SB_USER, book_id:currentBook.id, chapter_num:currentChapter.chapter_num, word, definition:def })
     .catch(e => console.warn('Could not save word:', e.message));
   renderSavedWords();
 }
 async function loadSavedWords(){
   try{
-    const rows = await sbGet('saved_words', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&order=created_at.desc&select=word,definition`);
+    const rows = await sbGet(tbl('saved_words'), `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&order=created_at.desc&select=word,definition`);
     savedWords = rows.map(r => ({ word:r.word, def:r.definition }));
   }catch(e){ console.warn('Could not load saved words:', e.message); savedWords = []; }
 }
@@ -1475,7 +1724,7 @@ async function openNotes(){
   ta.value = 'Loading…'; ta.disabled = true;
   openSheet('notes-overlay');
   try{
-    const rows = await sbGet('notes', `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&select=content`);
+    const rows = await sbGet(tbl('notes'), `book_id=eq.${currentBook.id}&user_id=eq.${SB_USER}&chapter_num=eq.${currentChapter.chapter_num}&select=content`);
     ta.value = (rows[0] && rows[0].content) || '';
   }catch(e){ console.warn('Could not load notes:', e.message); ta.value = ''; }
   ta.disabled = false;
@@ -1486,7 +1735,7 @@ document.getElementById('notes-textarea').addEventListener('input', function(){
   clearTimeout(notesSaveTimer);
   notesSaveTimer = setTimeout(() => {
     if(!currentChapter) return;
-    sbUpsert('notes', { user_id:SB_USER, book_id:currentBook.id, chapter_num:currentChapter.chapter_num, content, updated_at:new Date().toISOString() }, 'user_id,book_id,chapter_num')
+    sbUpsert(tbl('notes'), { user_id:SB_USER, book_id:currentBook.id, chapter_num:currentChapter.chapter_num, content, updated_at:new Date().toISOString() }, 'user_id,book_id,chapter_num')
       .catch(e => console.warn('Could not save notes:', e.message));
   }, 800);
 });
@@ -1642,7 +1891,7 @@ async function submitExam(){
           <div class="result-explain">${escapeHtml(r.explanation)}</div>
         </div>`).join('')}
     `;
-    sbInsert('exam_records', {
+    sbInsert(tbl('exam_records'), {
       user_id: SB_USER, book_id: currentBook.id, chapter_num: currentChapter.chapter_num,
       exam_type: currentExam.type, source: currentExam.source,
       questions: currentExam.questions, answers, score: parsed.score, total: parsed.total,
@@ -1698,7 +1947,7 @@ async function openReportCard(){
   document.getElementById('rc-body').innerHTML = '<div class="sheet-loading">Sir Hardaker is deliberating…</div>';
   try{
     const allTranscript = Object.entries(conversations).map(([role, msgs]) =>
-      `--- ${CHARACTERS[role].name} ---\n` + msgs.filter(m=>!m.thinking).map(m => `${m.role}: ${m.content}`).join('\n')
+      `--- ${CH()[role].name} ---\n` + msgs.filter(m=>!m.thinking).map(m => `${m.role}: ${m.content}`).join('\n')
     ).join('\n\n');
     const system = `Based on all conversation transcripts below (Professor Russell, Mr Slade, Dobby, Jed, and your own as Sir Hardaker) about ${chLabel(currentChapter.chapter_num)} of "${currentChapter.title}", assess the user's understanding. Respond with ONLY valid JSON: {"chapters":[{"label":"a short label naming this chapter, e.g. '${chLabel(currentChapter.chapter_num)} — [topic]'", "strength":"strong|medium|weak", "pct": <0-100>, "note":"one sentence assessment in Sir Hardaker's voice"}]}`;
     const reply = await callClaude({ model: MODELS.premium, system, messages:[{role:'user', content:allTranscript || 'No conversation yet.'}], maxTokens: 500 });
@@ -1722,22 +1971,27 @@ function renderMatron(){
   document.getElementById('stat-papers').textContent = stats.papers;
   document.getElementById('stat-chats').textContent = stats.chats;
 
+  const BADGE_NAMES = {
+    en: { teachersPet:"Teacher's Pet", fairWeather:"Fair-Weather Scholar", swot:"Swot of the Week", speedReader:"Speed Reader", knowItAll:"Know-It-All-in-Training" },
+    zh: { teachersPet:"教授亲生", fairWeather:"三日打鱼两日晒网奖", swot:"卷王本卷", speedReader:"一目十行", knowItAll:"万事通预备役" }
+  };
+  const BN = BADGE_NAMES[LOCALE];
   const badges = [
-    {name:"Teacher's Pet", count: Math.min(9, passagesRead.length)},
-    {name:"Fair-Weather Scholar", count: 0},
-    {name:"Swot of the Week", count: stats.papers},
-    {name:"Speed Reader", count: Math.floor(passagesRead.length/3)},
-    {name:"Know-It-All-in-Training", count: savedWords.length},
+    {name:BN.teachersPet, count: Math.min(9, passagesRead.length)},
+    {name:BN.fairWeather, count: 0},
+    {name:BN.swot, count: stats.papers},
+    {name:BN.speedReader, count: Math.floor(passagesRead.length/3)},
+    {name:BN.knowItAll, count: savedWords.length},
   ].filter(b => b.count > 0);
 
   if(BOOKS.length === 0){
-    document.getElementById('books-list').innerHTML = `<div style="font-size:12.5px; color:var(--ink-faint);">No books yet — add one from the Store.</div>`;
+    document.getElementById('books-list').innerHTML = `<div style="font-size:12.5px; color:var(--ink-faint);">${LOCALE === 'zh' ? '还没有书——去书城添加一本吧。' : 'No books yet — add one from the Store.'}</div>`;
     return;
   }
 
   document.getElementById('books-list').innerHTML = BOOKS.map(book => {
     const bookPct = Math.round((book.progress||0) * 100);
-    const badgeLabel = (TITLES.find(t => bookPct < t.max) || TITLES[TITLES.length-1]).label;
+    const badgeLabel = (TITLES[LOCALE].find(t => bookPct < t.max) || TITLES[LOCALE][TITLES[LOCALE].length-1]).label;
     const isCurrent = currentBook && currentBook.id === book.id;
     return `
     <div class="book-progress-card">
@@ -1751,11 +2005,11 @@ function renderMatron(){
       </div>
       ${isCurrent ? `
       <div class="badges-toggle" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');">
-        <span>Achievements (${badges.length})</span>
+        <span>${LOCALE === 'zh' ? '成就' : 'Achievements'} (${badges.length})</span>
         <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="badges-panel">
-        ${badges.length ? badges.map(b => `<div class="badge-row"><span>${b.name}</span><span class="badge-count">×${b.count}</span></div>`).join('') : '<div style="font-size:11px; color:var(--ink-faint); padding-bottom:12px;">Nothing yet this session — go talk to someone.</div>'}
+        ${badges.length ? badges.map(b => `<div class="badge-row"><span>${b.name}</span><span class="badge-count">×${b.count}</span></div>`).join('') : `<div style="font-size:11px; color:var(--ink-faint); padding-bottom:12px;">${LOCALE === 'zh' ? '这个学期还没解锁——去找人聊聊吧。' : 'Nothing yet this session — go talk to someone.'}</div>`}
       </div>` : ''}
     </div>`;
   }).join('');
@@ -1790,7 +2044,7 @@ function resetStore(){
   storeExtractedPages = [];
   storeDetected = null;
   storeFileInput.value = '';
-  storeFileName.textContent = 'Choose a PDF…';
+  storeFileName.textContent = UI_STRINGS[LOCALE].storeChooseFile;
   storeFileLabel.classList.remove('has-file');
   storeAnalyzeBtn.disabled = true;
   showStorePanel('upload');
@@ -1803,8 +2057,9 @@ function setStoreStatus(text, pct){
 async function analyzeStoreFile(){
   const file = storeFileInput.files[0];
   if(!file) return;
+  const zh = LOCALE === 'zh';
   showStorePanel('processing');
-  setStoreStatus('Reading the PDF…', 5);
+  setStoreStatus(zh ? '正在读取PDF…' : 'Reading the PDF…', 5);
 
   try{
     // 1. Extract raw text per page, entirely client-side
@@ -1812,7 +2067,7 @@ async function analyzeStoreFile(){
     const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
     const numPages = pdf.numPages;
     if(numPages > 700){
-      throw new Error(`That PDF has ${numPages} pages — too large for this to process comfortably. Try a shorter book.`);
+      throw new Error(zh ? `这份PDF有${numPages}页——太长了，处理起来会很吃力，换一本短一点的书试试。` : `That PDF has ${numPages} pages — too large for this to process comfortably. Try a shorter book.`);
     }
     const pages = [];
     for(let i = 1; i <= numPages; i++){
@@ -1821,7 +2076,7 @@ async function analyzeStoreFile(){
       const text = content.items.map(it => it.str).join(' ').replace(/\s+/g, ' ').trim();
       pages.push({ pdf_page: i, text });
       if(i % 5 === 0 || i === numPages){
-        setStoreStatus(`Reading page ${i} of ${numPages}…`, 5 + Math.round((i/numPages)*45));
+        setStoreStatus(zh ? `正在读取第 ${i} / ${numPages} 页…` : `Reading page ${i} of ${numPages}…`, 5 + Math.round((i/numPages)*45));
       }
     }
 
@@ -1829,7 +2084,7 @@ async function analyzeStoreFile(){
     const totalChars = pages.reduce((s,p) => s + p.text.length, 0);
     const avgCharsPerPage = totalChars / numPages;
     if(avgCharsPerPage < 40){
-      throw new Error("This PDF doesn't seem to have selectable text — it's likely a scanned or photographed book. This uploader only works with text-based PDFs.");
+      throw new Error(zh ? '这份PDF好像没有可选取的文字——很可能是扫描版或者拍照版。这个上传功能只支持文字版PDF。' : "This PDF doesn't seem to have selectable text — it's likely a scanned or photographed book. This uploader only works with text-based PDFs.");
     }
 
     // 3. Strip a repeating running header/footer, if there is one (frequency-based)
@@ -1838,12 +2093,13 @@ async function analyzeStoreFile(){
 
     // 4. Ask the Librarian to detect structure from a condensed probe (not the
     //    full text — keeps this fast and cheap regardless of book length)
-    setStoreStatus('Identifying chapters…', 55);
+    setStoreStatus(zh ? '正在识别章节…' : 'Identifying chapters…', 55);
     const probe = pages.map(p => `--- page ${p.pdf_page} ---\n${p.text.slice(0, 200)}`).join('\n');
     const system = `You are analyzing the extracted text of a book's pages to help a reading app import it. You are given the first ~200 characters of every page, labelled with its page number. Determine:
 1. Whether this looks like usable, coherent book text (not garbled OCR noise, not mostly non-text symbols).
 2. The book's title and author, if visible (usually on early pages).
 3. A reasonable chapter breakdown: each chapter's title and its start/end page numbers, based on where chapter headings appear to begin in this excerpt data. Skip front matter (title page, copyright, table of contents) — start from where the real content begins. Only include a per-chapter "author" field if that chapter is genuinely written by someone OTHER than the book's overall author (an edited essay collection, for instance) — leave it out (null) for the ordinary case of one author writing the whole book. It's fine to be approximate; the user will review and correct this.
+${zh ? 'This book is in Chinese — keep the title, author and chapter titles in their original Chinese as they appear in the text.' : ''}
 Respond with ONLY valid JSON, no markdown, no commentary before or after — your reply must be a single JSON object starting with { and ending with }, in this exact shape:
 {"feasible": true, "reason": null, "title": "...", "author": "...", "chapters": [{"title": "...", "author": null, "page_start": 1, "page_end": 12}]}
 If the text is not usable (garbled/OCR noise), respond: {"feasible": false, "reason": "short explanation", "title": null, "author": null, "chapters": []}
@@ -1855,10 +2111,10 @@ PAGE EXCERPTS:\n${probe}`;
       maxTokens: 8000
     });
     const parsed = extractJson(reply);
-    setStoreStatus('Done', 100);
+    setStoreStatus(zh ? '完成' : 'Done', 100);
 
     if(!parsed.feasible){
-      document.getElementById('store-error-msg').textContent = parsed.reason || "The Librarian couldn't make sense of this PDF's text.";
+      document.getElementById('store-error-msg').textContent = parsed.reason || (zh ? '书店大爷看不懂这份PDF的文字内容。' : "The Librarian couldn't make sense of this PDF's text.");
       showStorePanel('error');
       return;
     }
@@ -1896,6 +2152,7 @@ function renderChapterReview(detected){
 }
 
 function addStoreChapterRow(ch){
+  const zh = LOCALE === 'zh';
   const rowsEl = document.getElementById('store-chapter-rows');
   const idx = rowsEl.children.length + 1;
   const row = document.createElement('div');
@@ -1903,13 +2160,13 @@ function addStoreChapterRow(ch){
   row.innerHTML = `
     <div class="store-chapter-row-top">
       <div class="store-chapter-num">${idx}.</div>
-      <input type="text" class="store-ch-title" placeholder="Chapter title" value="${escapeHtml((ch && ch.title) || '')}">
+      <input type="text" class="store-ch-title" placeholder="${zh ? '章节标题' : 'Chapter title'}" value="${escapeHtml((ch && ch.title) || '')}">
       <span class="store-row-remove" onclick="this.closest('.store-chapter-row').remove(); renumberStoreRows();">&times;</span>
     </div>
-    <input type="text" class="store-ch-author" placeholder="Only fill in if this chapter has a different author" value="${escapeHtml((ch && ch.author) || '')}">
+    <input type="text" class="store-ch-author" placeholder="${zh ? '只有这一章作者跟全书不一样才填' : 'Only fill in if this chapter has a different author'}" value="${escapeHtml((ch && ch.author) || '')}">
     <div class="store-page-fields">
-      <label>From p.</label><input type="number" class="store-ch-start" value="${(ch && ch.page_start) || ''}" min="1">
-      <label>to p.</label><input type="number" class="store-ch-end" value="${(ch && ch.page_end) || ''}" min="1">
+      <label>${zh ? '起始页' : 'From p.'}</label><input type="number" class="store-ch-start" value="${(ch && ch.page_start) || ''}" min="1">
+      <label>${zh ? '结束页' : 'to p.'}</label><input type="number" class="store-ch-end" value="${(ch && ch.page_end) || ''}" min="1">
     </div>`;
   rowsEl.appendChild(row);
 }
@@ -1920,7 +2177,7 @@ function renumberStoreRows(){
 async function saveNewBook(){
   const title = document.getElementById('store-book-title').value.trim();
   const author = document.getElementById('store-book-author').value.trim();
-  if(!title || !author){ alert('Please fill in both the book title and author.'); return; }
+  if(!title || !author){ alert(LOCALE === 'zh' ? '请填写书名和作者。' : 'Please fill in both the book title and author.'); return; }
 
   const rows = [...document.querySelectorAll('#store-chapter-rows .store-chapter-row')].map(row => ({
     title: row.querySelector('.store-ch-title').value.trim(),
@@ -1928,26 +2185,26 @@ async function saveNewBook(){
     page_start: parseInt(row.querySelector('.store-ch-start').value, 10),
     page_end: parseInt(row.querySelector('.store-ch-end').value, 10)
   }));
-  if(rows.length === 0){ alert('Add at least one chapter.'); return; }
+  if(rows.length === 0){ alert(LOCALE === 'zh' ? '至少要有一章。' : 'Add at least one chapter.'); return; }
   for(const r of rows){
     if(!r.title || !r.page_start || !r.page_end || r.page_end < r.page_start){
-      alert('Every chapter needs a title and a valid page range.'); return;
+      alert(LOCALE === 'zh' ? '每一章都需要标题和有效的页码范围。' : 'Every chapter needs a title and a valid page range.'); return;
     }
   }
 
   const saveBtn = document.querySelector('#store-review-panel .settings-save');
   saveBtn.disabled = true;
-  saveBtn.textContent = 'Saving…';
+  saveBtn.textContent = LOCALE === 'zh' ? '保存中…' : 'Saving…';
   try{
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 60) + '-' + Date.now().toString(36);
-    const [book] = await sbInsert('books', { uploaded_by: SB_USER, slug, title, author, total_chapters: rows.length });
+    const [book] = await sbInsert(tbl('books'), { uploaded_by: SB_USER, slug, title, author, total_chapters: rows.length });
 
     for(let i = 0; i < rows.length; i++){
       const r = rows[i];
       const chapterPages = storeExtractedPages
         .filter(p => p.pdf_page >= r.page_start && p.pdf_page <= r.page_end)
         .map(p => ({ pdf_page: p.pdf_page, printed_page: null, text: p.text }));
-      await sbInsert('chapters', {
+      await sbInsert(tbl('chapters'), {
         book_id: book.id, chapter_num: i + 1, title: r.title, author: r.author,
         pdf_page_start: r.page_start, pdf_page_end: r.page_end, pages: chapterPages
       });
@@ -1957,17 +2214,113 @@ async function saveNewBook(){
     await loadBooks();
     showView('lobby-view');
   } catch(err){
-    alert('Could not save this book: ' + err.message);
+    alert((LOCALE === 'zh' ? '无法保存这本书：' : 'Could not save this book: ') + err.message);
   } finally{
     saveBtn.disabled = false;
-    saveBtn.textContent = 'Save to My Shelf';
+    saveBtn.textContent = LOCALE === 'zh' ? '存入我的书架' : 'Save to My Shelf';
   }
+}
+
+/* =========================================================================
+   ATTACH YOUR OWN PAPER — available to every character, every role
+   ========================================================================= */
+let uploadedPaperText = null;
+let uploadedPaperName = null;
+const attachFileInput = document.getElementById('attach-file-input');
+const attachFileLabel = document.getElementById('attach-file-label');
+const attachFileNameEl = document.getElementById('attach-file-name');
+const attachBtnEl = document.getElementById('attach-btn');
+
+attachFileInput.addEventListener('change', () => {
+  const f = attachFileInput.files[0];
+  if(!f) return;
+  attachFileNameEl.textContent = f.name;
+  attachFileLabel.classList.add('has-file');
+  attachBtnEl.disabled = false;
+  document.getElementById('attach-status').textContent = '';
+});
+attachBtnEl.addEventListener('click', attachPaper);
+
+async function attachPaper(){
+  const file = attachFileInput.files[0];
+  if(!file) return;
+  const zh = LOCALE === 'zh';
+  const statusEl = document.getElementById('attach-status');
+  const track = document.getElementById('attach-progress-track');
+  const fill = document.getElementById('attach-progress-fill');
+  attachBtnEl.disabled = true;
+  track.style.display = 'block';
+  statusEl.className = 'settings-status';
+  statusEl.textContent = zh ? '正在读取…' : 'Reading…';
+
+  try{
+    const buf = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+    const numPages = pdf.numPages;
+    if(numPages > 25){
+      throw new Error(zh ? '这份文件有点长（超过25页）——这个功能是给论文、文章用的，太长的书请去"书城"上传。' : "That file is quite long (over 25 pages) — this is meant for essays and papers. For a full book, use the Store instead.");
+    }
+    let fullText = '';
+    for(let i = 1; i <= numPages; i++){
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      fullText += content.items.map(it => it.str).join(' ').replace(/\s+/g, ' ').trim() + '\n\n';
+      fill.style.width = Math.round((i/numPages)*100) + '%';
+    }
+    if(fullText.trim().length < 40){
+      throw new Error(zh ? '这份PDF好像没有可选取的文字，可能是扫描版。' : "This PDF doesn't seem to have selectable text — it may be a scanned document.");
+    }
+    uploadedPaperText = fullText.trim();
+    uploadedPaperName = file.name;
+    statusEl.className = 'settings-status ok';
+    statusEl.textContent = zh ? `已附加：${uploadedPaperName}` : `Attached: ${uploadedPaperName}`;
+    renderAttachedState();
+    renderRoleChrome(currentRole);
+    setTimeout(() => closeSheet('attach-overlay'), 700);
+  }catch(err){
+    statusEl.className = 'settings-status missing';
+    statusEl.textContent = err.message;
+  }finally{
+    attachBtnEl.disabled = false;
+    track.style.display = 'none';
+    fill.style.width = '0%';
+  }
+}
+
+function removeAttachedPaper(){
+  uploadedPaperText = null;
+  uploadedPaperName = null;
+  attachFileInput.value = '';
+  attachFileLabel.classList.remove('has-file');
+  attachFileNameEl.textContent = UI_STRINGS[LOCALE].attachChooseFile;
+  attachBtnEl.disabled = true;
+  document.getElementById('attach-status').textContent = '';
+  renderAttachedState();
+  renderRoleChrome(currentRole);
+}
+
+function renderAttachedState(){
+  const statusEl = document.getElementById('attach-status');
+  if(uploadedPaperText){
+    const zh = LOCALE === 'zh';
+    statusEl.className = 'settings-status ok';
+    statusEl.innerHTML = `${zh ? '已附加：' : 'Attached: '}${escapeHtml(uploadedPaperName)} &nbsp; <a onclick="removeAttachedPaper()" style="color:var(--burgundy); cursor:pointer;">${zh ? '移除' : 'remove'}</a>`;
+  }
+}
+
+function withAttachedPaper(system){
+  if(!uploadedPaperText) return system;
+  const note = LOCALE === 'zh'
+    ? `\n\n用户还上传了自己写的一篇论文/文章，文件名是"${uploadedPaperName}"。如果对话内容合适，你可以主动引用、点评或讨论这篇论文，保持你一贯的角色语气，不要生硬地大段引用全文。论文全文如下：\n${uploadedPaperText}`
+    : `\n\nThe user has also shared a paper/essay of their own, titled "${uploadedPaperName}". If it's relevant to the conversation, feel free to reference, critique, or discuss it in character — don't just dump it back at them. Full text of their paper:\n${uploadedPaperText}`;
+  return system + note;
 }
 
 /* =========================================================================
    AUTH — sign in / sign up / session lifecycle
    ========================================================================= */
 function initApp(){
+  applyUIStrings();
   renderSavedWords();
   loadBooks();
   refreshStats();
